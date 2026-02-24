@@ -1,0 +1,26 @@
+name: "Hand-drawn Doodle"
+description: "Hand-drawn style, fun doodles — for creative workshops, education, brainstorming, and casual presentations"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - content
+  - data_dashboard
+  - case_study
+  - conclusion_cta
+narrative: "chronological"
+suggested_slides: 9
+style_hints:
+  background: "Cream paper texture (#FFF8E7) with subtle grid/dot notebook patterns. Sticky note and tape accents."
+  typography: "Handwritten script fonts (Caveat / Patrick Hand) for headings. Marker-style emphasis. Clean sans-serif for body readability."
+  colors:
+    - "#2C3E50"
+    - "#E74C3C"
+    - "#F39C12"
+    - "#27AE60"
+    - "#FFF8E7"
+    - "#3498DB"
+  layout: "Freeform sticky note arrangements. Hand-drawn arrow connectors. Content on notebook paper, index cards, or sticky notes."
+  visual: "Hand-drawn icons and doodles, highlighter annotations, tape/pin attachments, sketch-style illustrations, washi tape borders, pencil underlines."

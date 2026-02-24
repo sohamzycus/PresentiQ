@@ -1,0 +1,26 @@
+name: "Blueprint Technical"
+description: "Engineering blueprint aesthetic — grid paper, technical drawings, for engineering, architecture, and deep-tech topics"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - content
+  - data_dashboard
+  - timeline
+  - conclusion_cta
+narrative: "problem_solution_result"
+suggested_slides: 9
+style_hints:
+  background: "Deep navy blue (#1B2838) with subtle grid lines like engineering graph paper. Fine white grid at 5% opacity."
+  typography: "Monospace or technical sans-serif fonts (JetBrains Mono / DIN style). All-caps labels. Precise, engineering feel."
+  colors:
+    - "#1B2838"
+    - "#FFFFFF"
+    - "#00B4D8"
+    - "#90E0EF"
+    - "#CAF0F8"
+    - "#FFB703"
+  layout: "Structured grid layouts with technical precision. Content in wireframe-style boxes. Dimension lines and callout arrows."
+  visual: "Blueprint grid lines, technical callout arrows, wireframe diagrams, measurement annotations, schematic-style icons, crosshair markers."

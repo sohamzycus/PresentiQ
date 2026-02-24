@@ -1,0 +1,27 @@
+name: "Fintech Modern"
+description: "Sleek fintech/banking style — dark with green accents, for finance, crypto, and investment presentations"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - data_dashboard
+  - data_dashboard
+  - content
+  - case_study
+  - timeline
+  - conclusion_cta
+narrative: "problem_solution_result"
+suggested_slides: 10
+style_hints:
+  background: "Deep dark blue-black (#0A1628) with subtle dot grid pattern. Clean and premium."
+  typography: "Modern geometric sans-serif (Inter / SF Pro). Crisp, precise. Green accent for positive metrics, red for negative."
+  colors:
+    - "#0A1628"
+    - "#00E676"
+    - "#FFFFFF"
+    - "#1E3A5F"
+    - "#FF5252"
+    - "#B0BEC5"
+  layout: "Dashboard-inspired layouts. Metric cards with green/red indicators. Clean tables. Chart areas with dark backgrounds."
+  visual: "Line chart graphics, candlestick patterns, upward trend arrows, currency symbols, blockchain node graphics, security shield icons."

@@ -1,0 +1,24 @@
+name: "Monochrome Bold"
+description: "High-contrast black and white — dramatic, typographic-driven, for bold statements and thought leadership"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - content
+  - data_dashboard
+  - conclusion_cta
+narrative: "story_driven"
+suggested_slides: 8
+style_hints:
+  background: "Pure black (#000000) or pure white (#FFFFFF). Alternating black/white slides for dramatic contrast."
+  typography: "Extra-bold condensed sans-serif (Bebas Neue / Oswald). Massive headings filling 60% of slide. Dramatic typographic scale."
+  colors:
+    - "#000000"
+    - "#FFFFFF"
+    - "#333333"
+    - "#CCCCCC"
+    - "#FF0000"
+  layout: "Typography IS the layout. Huge text fills the slide. Minimal other elements. One powerful statement per slide. Red for single accent."
+  visual: "Pure typography, bold horizontal rules, dramatic scale contrast, single red accent element per slide, stark negative space."

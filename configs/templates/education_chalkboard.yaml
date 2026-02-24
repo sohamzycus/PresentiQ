@@ -1,0 +1,26 @@
+name: "Education Chalkboard"
+description: "Classic chalkboard/blackboard aesthetic — chalk text, doodles, for teachers, lectures, and educational content"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - content
+  - data_dashboard
+  - case_study
+  - conclusion_cta
+narrative: "story_driven"
+suggested_slides: 9
+style_hints:
+  background: "Dark green chalkboard (#2D5016) or dark slate (#2C3E50). Subtle chalk dust texture and eraser smudge marks."
+  typography: "Chalk-style handwritten fonts for headings. Clean white or pale yellow text. Slightly rough/imperfect edges for authenticity."
+  colors:
+    - "#2D5016"
+    - "#FFFFFF"
+    - "#FFE066"
+    - "#FF6B6B"
+    - "#74C0FC"
+    - "#D4C5A9"
+  layout: "Freeform, hand-drawn feel. Content arranged like notes on a blackboard. Chalk underlines and arrows connecting ideas."
+  visual: "Chalk-drawn icons, hand-drawn arrows and underlines, doodle-style illustrations, eraser smudges, chalk dust particles, ruler lines."

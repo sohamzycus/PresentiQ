@@ -1,0 +1,27 @@
+name: "Storytelling Cinematic"
+description: "Widescreen cinematic feel — dramatic lighting, film-strip elements, for narratives, documentaries, and case studies"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - content
+  - content
+  - case_study
+  - case_study
+  - conclusion_cta
+narrative: "story_driven"
+suggested_slides: 10
+style_hints:
+  background: "Dark cinematic gradients — deep navy to black. Subtle film grain texture. Dramatic spotlight effects on key elements."
+  typography: "Cinematic serif headings (Cinzel / Playfair Display). Elegant, dramatic, large. Thin sans-serif body in white/light gray."
+  colors:
+    - "#0A0A0A"
+    - "#FFFFFF"
+    - "#D4AF37"
+    - "#1A1A2E"
+    - "#C0C0C0"
+    - "#8B0000"
+  layout: "16:9 widescreen cinematic framing. Large hero text centered. Chapter-style numbering. Film-strip borders on image sections."
+  visual: "Film strip borders, spotlight/vignette effects, chapter numbers in gold, dramatic shadows, curtain/stage elements, golden accent lines."

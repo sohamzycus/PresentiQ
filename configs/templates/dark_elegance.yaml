@@ -1,0 +1,25 @@
+name: "Dark Elegance"
+description: "Sophisticated dark theme with gold accents — ideal for luxury brands, executive presentations, and premium showcases"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - data_dashboard
+  - case_study
+  - conclusion_cta
+narrative: "problem_solution_result"
+suggested_slides: 8
+style_hints:
+  background: "Deep charcoal (#1A1A2E) to near-black gradients. Subtle dark geometric patterns or fine pinstripe textures."
+  typography: "Elegant serif headings with generous letter-spacing. Thin sans-serif body text. Gold (#C9A96E) for accent text."
+  colors:
+    - "#1A1A2E"
+    - "#C9A96E"
+    - "#FFFFFF"
+    - "#16213E"
+    - "#E8D5B7"
+    - "#333333"
+  layout: "Centered, symmetrical layouts. Thin gold divider lines. Large hero text with dramatic whitespace on dark backgrounds."
+  visual: "Thin gold borders, subtle metallic gradients, elegant line separators, minimal iconography with gold stroke style."

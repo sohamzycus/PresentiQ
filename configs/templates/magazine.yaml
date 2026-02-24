@@ -1,0 +1,25 @@
+name: "Magazine Style"
+description: "Fashion magazine editorial layout — bold typography, dynamic composition, for fashion, creative, and brand content"
+sequence:
+  - title
+  - content
+  - content
+  - content
+  - content
+  - comparison
+  - case_study
+  - conclusion_cta
+narrative: "story_driven"
+suggested_slides: 8
+style_hints:
+  background: "Solid bold color blocks — black, red, white. High contrast combinations. Split-screen color sections."
+  typography: "Extra-large bold condensed headings (Bebas Neue / Oswald). Mixed font sizes as design element. Dramatic typographic scale."
+  colors:
+    - "#000000"
+    - "#FF4500"
+    - "#FFFFFF"
+    - "#FFD700"
+    - "#1A1A1A"
+    - "#E0E0E0"
+  layout: "Break-the-grid editorial layouts. Text wrapping around shapes. Dynamic asymmetric compositions. Full-bleed color sections."
+  visual: "High-contrast photography placeholders, cropped portrait frames, collage effects, bold pull quotes, editorial page numbers, fashion-style captions."

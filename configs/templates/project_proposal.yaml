@@ -1,0 +1,25 @@
+name: "Project Proposal"
+description: "For project kickoff, proposal presentations, requirements review, and budget approval"
+sequence:
+  - title
+  - problem_solution
+  - content
+  - content
+  - timeline
+  - data_dashboard
+  - content
+  - conclusion_cta
+narrative: "problem_solution_result"
+suggested_slides: 8
+style_hints:
+  background: "Clean white with teal (#0097A7) accent header bars. Light gray (#F5F7FA) for data sections."
+  typography: "Professional sans-serif (Roboto / Noto Sans). Clear section numbering. Teal headings, dark body text."
+  colors:
+    - "#0097A7"
+    - "#FFFFFF"
+    - "#F5F7FA"
+    - "#00695C"
+    - "#333333"
+    - "#FFB300"
+  layout: "Structured proposal flow — problem, solution, timeline, budget, team. Gantt-style timeline. Budget breakdown tables."
+  visual: "Gantt chart timelines, budget pie charts, team role cards, milestone markers, risk matrix grids, deliverable checklists."

@@ -1,0 +1,26 @@
+name: "Newspaper Editorial"
+description: "Classic newspaper/editorial layout — column grids, serif typography, for journalism, media, and storytelling"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - content
+  - data_dashboard
+  - case_study
+  - conclusion_cta
+narrative: "story_driven"
+suggested_slides: 9
+style_hints:
+  background: "Off-white parchment (#FAF8F5) or warm cream. Subtle newsprint texture. Clean and classic."
+  typography: "Bold serif headings (Times New Roman / Playfair Display). Smaller serif body text in columns. Dateline and byline styling."
+  colors:
+    - "#1A1A1A"
+    - "#FAF8F5"
+    - "#C41E3A"
+    - "#8B7355"
+    - "#2C2C2C"
+    - "#D4C5A9"
+  layout: "Multi-column layouts like newspaper pages. Horizontal rules between sections. Pull quotes in large italic serif. Masthead-style titles."
+  visual: "Column dividers, drop caps, pull quote blocks, thin horizontal rules, red accent lines, editorial-style numbering."

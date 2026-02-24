@@ -1,0 +1,27 @@
+name: "Corporate Professional"
+description: "Clean, trustworthy corporate style — for board meetings, investor updates, enterprise presentations"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - data_dashboard
+  - data_dashboard
+  - case_study
+  - timeline
+  - conclusion_cta
+narrative: "problem_solution_result"
+suggested_slides: 10
+style_hints:
+  background: "Clean white (#FFFFFF) with navy blue header bars. Subtle light gray (#F5F7FA) section backgrounds for contrast."
+  typography: "Professional sans-serif (Calibri / Segoe UI style). Navy headings, dark gray body. Conservative sizing with clear hierarchy."
+  colors:
+    - "#1B365D"
+    - "#FFFFFF"
+    - "#F5F7FA"
+    - "#2E86AB"
+    - "#333333"
+    - "#E8ECF1"
+  layout: "Structured, grid-aligned layouts. Top navigation bar with company branding area. Two or three column grids. Footer with page numbers."
+  visual: "Clean line icons, simple bar/pie chart placeholders, subtle blue accent lines, professional dividers, logo placement areas."

@@ -1,0 +1,26 @@
+name: "Startup Bold"
+description: "High-energy, bold colors, punchy layouts — for startup pitches, product demos, and disruptive ideas"
+sequence:
+  - title
+  - problem_solution
+  - content
+  - content
+  - content
+  - data_dashboard
+  - case_study
+  - timeline
+  - conclusion_cta
+narrative: "problem_solution_result"
+suggested_slides: 9
+style_hints:
+  background: "Vibrant solid colors or bold two-tone splits. Electric blue, hot coral, deep purple backgrounds. No subtle gradients — go bold."
+  typography: "Extra-bold, oversized sans-serif headings (Impact/Montserrat Black style). ALL CAPS titles. Tight leading. Body text in clean white."
+  colors:
+    - "#FF6B35"
+    - "#004E89"
+    - "#1A1A2E"
+    - "#F7F7F7"
+    - "#FFD166"
+    - "#06D6A0"
+  layout: "Asymmetric, dynamic layouts. Diagonal cuts, overlapping elements, bold number callouts. One big idea per slide."
+  visual: "Bold geometric shapes, oversized numbers, arrow graphics, isometric illustrations, progress bars, metric cards with big bold stats."

@@ -1,0 +1,26 @@
+name: "Business Pitch"
+description: "For fundraising decks, product pitches, investor presentations, and business plans"
+sequence:
+  - title
+  - problem_solution
+  - content
+  - content
+  - data_dashboard
+  - data_dashboard
+  - case_study
+  - timeline
+  - conclusion_cta
+narrative: "problem_solution_result"
+suggested_slides: 9
+style_hints:
+  background: "Clean white base with bold accent color blocks. Navy or dark sections for contrast. Professional and confident."
+  typography: "Bold geometric sans-serif headings (Montserrat / Inter Bold). Clean body text. Large metric numbers for impact."
+  colors:
+    - "#1B365D"
+    - "#FF6B35"
+    - "#FFFFFF"
+    - "#F5F7FA"
+    - "#2C3E50"
+    - "#27AE60"
+  layout: "Problem-solution flow. Big stat callouts. Before/after comparisons. Metric cards with icons. Team grid at the end."
+  visual: "Upward trend arrows, metric highlight cards, comparison tables, team photo placeholders, logo grids for partners/clients."

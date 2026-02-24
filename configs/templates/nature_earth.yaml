@@ -1,0 +1,25 @@
+name: "Nature & Earth"
+description: "Organic, earthy tones with botanical illustrations — perfect for environment, sustainability, and wellness topics"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - data_dashboard
+  - case_study
+  - conclusion_cta
+narrative: "story_driven"
+suggested_slides: 8
+style_hints:
+  background: "Warm earthy gradients — sage green to sandy beige, soft terracotta washes. Subtle leaf/botanical watercolor textures in corners."
+  typography: "Serif headings (Georgia, Playfair Display style) paired with clean sans-serif body. Warm, inviting, grounded feel."
+  colors:
+    - "#4A7C59"
+    - "#8FBC8F"
+    - "#D4A574"
+    - "#F5E6D3"
+    - "#2D5016"
+    - "#FFFFFF"
+  layout: "Asymmetric layouts with organic shapes. Content framed by botanical line art. Generous margins with nature-inspired dividers."
+  visual: "Watercolor leaf accents, hand-drawn botanical line art, organic blob shapes, subtle paper textures. Earthy and calming."

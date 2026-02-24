@@ -1,0 +1,25 @@
+name: "Geometric Abstract"
+description: "Bold geometric shapes and abstract compositions — for design, architecture, and modern creative presentations"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - data_dashboard
+  - case_study
+  - conclusion_cta
+narrative: "problem_solution_result"
+suggested_slides: 8
+style_hints:
+  background: "White or light gray base with large geometric shape overlays — triangles, circles, hexagons in bold colors."
+  typography: "Geometric sans-serif (Poppins / Montserrat). Bold headings with tight tracking. Clean and architectural."
+  colors:
+    - "#FF6B6B"
+    - "#4ECDC4"
+    - "#2C3E50"
+    - "#F7F7F7"
+    - "#FFE66D"
+    - "#95E1D3"
+  layout: "Modular grid with geometric shape containers. Content inside circles, triangles, and hexagons. Overlapping transparent shapes."
+  visual: "Large geometric shapes, overlapping transparent polygons, isometric grids, abstract line compositions, tessellation patterns."

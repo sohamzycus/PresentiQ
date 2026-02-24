@@ -1,0 +1,25 @@
+name: "Pop Art"
+description: "Bold Warhol/Lichtenstein inspired — halftone dots, primary colors, comic style for creative and marketing presentations"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - content
+  - data_dashboard
+  - conclusion_cta
+narrative: "story_driven"
+suggested_slides: 8
+style_hints:
+  background: "Solid bold primary colors — bright yellow, red, blue. Halftone dot patterns. Ben-Day dot overlays."
+  typography: "Bold comic-style sans-serif (Bangers / Impact style). Black outlines on text. Speech bubble text for quotes."
+  colors:
+    - "#FF0000"
+    - "#FFD700"
+    - "#0066FF"
+    - "#FFFFFF"
+    - "#000000"
+    - "#FF69B4"
+  layout: "Comic panel grid layouts. Speech bubbles for key points. Bold black outlines on all elements. Starburst shapes for callouts."
+  visual: "Halftone dot patterns, comic speech bubbles, starburst/explosion shapes, thick black outlines, Ben-Day dots, action words (POW! BOOM!)."

@@ -1,0 +1,25 @@
+name: "Pastel Dream"
+description: "Soft pastel palette with dreamy gradients — for wellness, beauty, lifestyle, and gentle storytelling"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - content
+  - data_dashboard
+  - conclusion_cta
+narrative: "story_driven"
+suggested_slides: 8
+style_hints:
+  background: "Soft pastel gradients — lavender to baby pink, mint to cream. Dreamy cloud-like shapes and soft bokeh circles."
+  typography: "Rounded sans-serif headings (Nunito/Quicksand style). Soft weight, generous spacing. Gentle and approachable."
+  colors:
+    - "#B8A9C9"
+    - "#F0C6D3"
+    - "#A8D8EA"
+    - "#FFF5E4"
+    - "#98D8C8"
+    - "#6C5B7B"
+  layout: "Centered, balanced layouts. Content in soft rounded cards with pastel borders. Floating elements with gentle shadows."
+  visual: "Soft blob shapes, dreamy circles, gentle gradients, rounded icons, cloud-like decorations, subtle sparkle accents."

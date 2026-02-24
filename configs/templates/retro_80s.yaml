@@ -1,0 +1,25 @@
+name: "Retro 80s"
+description: "Synthwave nostalgia — neon grids, sunset gradients, retro-futuristic vibes for fun and creative presentations"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - data_dashboard
+  - timeline
+  - conclusion_cta
+narrative: "problem_solution_result"
+suggested_slides: 8
+style_hints:
+  background: "Dark purple-to-pink sunset gradients. Perspective grid lines vanishing to horizon. Starfield or scanline overlays."
+  typography: "Retro chrome/neon display fonts for headings. Monospace or pixel-style for accents. Clean sans-serif for body."
+  colors:
+    - "#FF6EC7"
+    - "#7B2FBE"
+    - "#00D4FF"
+    - "#1A0A2E"
+    - "#FFE66D"
+    - "#FF3864"
+  layout: "Centered compositions with horizon lines. Content in neon-bordered cards. Retro TV screen frames for key content."
+  visual: "Neon glow effects, chrome text, sunset gradient bars, retro grid floors, palm tree silhouettes, VHS scanline overlays."

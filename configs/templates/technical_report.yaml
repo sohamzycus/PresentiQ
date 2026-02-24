@@ -1,0 +1,26 @@
+name: "Technical Report"
+description: "For technical sharing, architecture reviews, engineering deep-dives, and project post-mortems"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - data_dashboard
+  - timeline
+  - case_study
+  - conclusion_cta
+narrative: "chronological"
+suggested_slides: 9
+style_hints:
+  background: "Clean white (#FFFFFF) with subtle light gray (#F8F9FA) code block areas. Thin blue left-border accents."
+  typography: "Sans-serif headings (Inter / Roboto). Monospace for code/technical terms (Fira Code style). Clear numbered sections."
+  colors:
+    - "#2563EB"
+    - "#FFFFFF"
+    - "#F8F9FA"
+    - "#1E293B"
+    - "#64748B"
+    - "#DBEAFE"
+  layout: "Structured technical flow. Architecture diagram areas. Code snippet blocks. Performance metric tables. Numbered findings."
+  visual: "Architecture diagrams, code blocks with syntax highlighting colors, performance charts, system flow arrows, API endpoint tables, server/cloud icons."

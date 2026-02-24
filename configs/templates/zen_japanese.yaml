@@ -1,0 +1,25 @@
+name: "Zen Japanese"
+description: "Wabi-sabi inspired minimalism — ink wash, natural textures, for mindfulness, culture, and philosophy topics"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - content
+  - case_study
+  - conclusion_cta
+narrative: "story_driven"
+suggested_slides: 8
+style_hints:
+  background: "Warm rice paper white (#F5F0E8) or soft warm gray. Subtle washi paper texture. Ink wash gradient accents."
+  typography: "Clean serif or elegant sans-serif. Generous whitespace around text. Vertical accent text for decoration. Brush stroke style for titles."
+  colors:
+    - "#2C2C2C"
+    - "#F5F0E8"
+    - "#8B4513"
+    - "#C41E3A"
+    - "#5B7065"
+    - "#D4C5A9"
+  layout: "Asymmetric balance (ma — negative space). One focal element per slide. Content breathes with 50%+ whitespace. Off-center compositions."
+  visual: "Ink brush strokes, enso circles, bamboo/wave line art, stone/pebble arrangements, subtle ink splatter, minimalist nature motifs."

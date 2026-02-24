@@ -1,0 +1,25 @@
+name: "Nordic Clean"
+description: "Scandinavian minimalism — muted tones, clean lines, hygge warmth for design, architecture, and lifestyle topics"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - content
+  - data_dashboard
+  - conclusion_cta
+narrative: "story_driven"
+suggested_slides: 8
+style_hints:
+  background: "Soft off-white (#F8F5F0), warm light gray, or pale blush. Subtle linen or paper grain texture."
+  typography: "Clean geometric sans-serif (Futura/Jost style). Light weight headings, medium weight body. Generous letter-spacing."
+  colors:
+    - "#2C3E50"
+    - "#F8F5F0"
+    - "#D4A574"
+    - "#8B9DAF"
+    - "#E8DDD3"
+    - "#5D6D7E"
+  layout: "Grid-based, highly structured. Lots of whitespace (60%+). Content aligned to invisible grid. Minimal decoration."
+  visual: "Thin hairline rules, simple geometric shapes, muted photography placeholders, subtle drop shadows, clean iconography."

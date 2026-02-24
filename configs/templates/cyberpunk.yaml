@@ -1,0 +1,26 @@
+name: "Cyberpunk"
+description: "Neon effects, dark background, futuristic tech feel — for tech, gaming, sci-fi, and edgy creative presentations"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - data_dashboard
+  - timeline
+  - case_study
+  - conclusion_cta
+narrative: "problem_solution_result"
+suggested_slides: 9
+style_hints:
+  background: "Deep purple-black (#0D0D0D) with neon grid lines. Rain/static overlay effects. Glitch distortion accents."
+  typography: "Tech-style fonts (Orbitron / Rajdhani) for headings. Monospace for data. Neon glow text effects. Glitch text for emphasis."
+  colors:
+    - "#FF00FF"
+    - "#00FFFF"
+    - "#FF1493"
+    - "#0D0D0D"
+    - "#FFE66D"
+    - "#39FF14"
+  layout: "Angular cuts, diagonal dividers. Content in neon-bordered HUD panels. Glitch-offset elements. Terminal-style data readouts."
+  visual: "Neon borders with glow, holographic effects, glitch art distortions, circuit board traces, HUD overlay elements, rain/particle effects."

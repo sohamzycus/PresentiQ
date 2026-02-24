@@ -1,0 +1,25 @@
+name: "Quarterly Review"
+description: "For performance reports, work summaries, OKR reviews, and department retrospectives"
+sequence:
+  - title
+  - data_dashboard
+  - data_dashboard
+  - content
+  - timeline
+  - comparison
+  - content
+  - conclusion_cta
+narrative: "problem_solution_result"
+suggested_slides: 8
+style_hints:
+  background: "White base with navy (#1B365D) header sections. Light blue (#EBF5FB) for data highlight areas."
+  typography: "Clean corporate sans-serif (Calibri / Segoe UI). Large bold KPI numbers. Subtle gray labels. Green/red for trends."
+  colors:
+    - "#1B365D"
+    - "#FFFFFF"
+    - "#EBF5FB"
+    - "#27AE60"
+    - "#E74C3C"
+    - "#333333"
+  layout: "KPI dashboard grids. Quarter-over-quarter comparison tables. Goal vs actual bars. Team performance cards."
+  visual: "KPI metric cards, trend arrows (green up / red down), progress bars, quarter comparison charts, goal thermometers, traffic light status."

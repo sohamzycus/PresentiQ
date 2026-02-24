@@ -1,0 +1,25 @@
+name: "Flat Illustration"
+description: "Modern flat design with vector illustrations — Google/Dropbox style, for SaaS, apps, and tech explainers"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - content
+  - data_dashboard
+  - conclusion_cta
+narrative: "problem_solution_result"
+suggested_slides: 8
+style_hints:
+  background: "Clean white (#FFFFFF) or very light blue (#F0F4FF). Flat colored shape accents in corners."
+  typography: "Friendly rounded sans-serif (Google Sans / Product Sans style). Medium weight. Approachable and modern."
+  colors:
+    - "#4285F4"
+    - "#34A853"
+    - "#FBBC04"
+    - "#EA4335"
+    - "#FFFFFF"
+    - "#202124"
+  layout: "Balanced two-column layouts — text on one side, illustration area on the other. Clean cards with subtle shadows."
+  visual: "Flat vector character illustrations, simple scene compositions, isometric objects, friendly people illustrations, device mockups, colorful blobs."

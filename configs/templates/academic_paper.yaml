@@ -1,0 +1,23 @@
+# Academic paper style template - NotebookLM style
+name: "Academic Paper"
+description: "NotebookLM style, clean academic feel, formulas and charts, for paper interpretation/technical sharing/research reports"
+sequence:
+  - title
+  - content
+  - content
+  - data_dashboard
+  - content
+  - conclusion_cta
+narrative: "chronological"
+suggested_slides: 6
+style_hints:
+  background: "Pure white or very light gray (#FAFAFA) background, clean and fresh"
+  typography: "Deep blue bold headings, black body text, LaTeX-style math formula rendering"
+  colors:
+    - "#1A365D"
+    - "#2B6CB0"
+    - "#4A5568"
+    - "#FFFFFF"
+  layout: "Left text right image column layout, centered formulas, charts with captions on the right"
+  visual: "3D concept diagrams, flow charts, math formulas, clean charts, blue gradient accent lines"
+  special: "NotebookLM-style watermark in bottom right, minimal page design with ample whitespace"

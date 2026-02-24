@@ -1,0 +1,31 @@
+name: "School Project"
+description: "Colorful, engaging style for school presentations by young students"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - content
+  - content
+  - content
+  - content
+  - data_dashboard
+  - case_study
+  - case_study
+  - conclusion_cta
+narrative: "story_driven"
+suggested_slides: 13
+style_hints:
+  background: "Bright, cheerful gradient backgrounds — sky blue, soft green, warm yellow tones. Clean and inviting."
+  typography: "Large, bold, rounded sans-serif fonts. Easy to read. Fun but not childish. Use Inter or similar modern font."
+  colors:
+    - "#4FC3F7"
+    - "#81C784"
+    - "#FFD54F"
+    - "#FF8A65"
+    - "#BA68C8"
+    - "#FFFFFF"
+  layout: "Simple layouts with large text, colorful icons, and lots of whitespace. One idea per slide. Big visuals."
+  visual: "Friendly flat-style icons, simple illustrations, rounded shapes, soft shadows. Think Google Material Design for kids."
+  special: "This is a school project by a Class 6 student (age 11). Keep language simple, fun, and age-appropriate. Use emojis sparingly for visual interest. Weave the story of Ravi (11 yrs old) throughout the slides to make it relatable and exciting."

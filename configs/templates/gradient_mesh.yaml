@@ -1,0 +1,25 @@
+name: "Gradient Mesh"
+description: "Vibrant multi-color gradient mesh backgrounds — trendy, modern, for creative agencies and design presentations"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - data_dashboard
+  - case_study
+  - conclusion_cta
+narrative: "problem_solution_result"
+suggested_slides: 8
+style_hints:
+  background: "Complex multi-color gradient mesh — flowing blends of purple, teal, coral, and gold. Organic color blobs that shift across the slide."
+  typography: "Bold modern sans-serif headings (Inter Black / Clash Display). White text with subtle text-shadow for readability over gradients."
+  colors:
+    - "#8B5CF6"
+    - "#06B6D4"
+    - "#F43F5E"
+    - "#F59E0B"
+    - "#FFFFFF"
+    - "#10B981"
+  layout: "Content in frosted glass cards floating over gradient backgrounds. Rounded corners, backdrop-blur effect."
+  visual: "Gradient mesh blobs, glassmorphism cards, subtle grain overlay, colorful pill-shaped tags, modern rounded icons."

@@ -1,0 +1,26 @@
+name: "3D Modern"
+description: "3D elements, dimensional graphics — for tech products, innovation showcases, and futuristic topics"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - data_dashboard
+  - comparison
+  - case_study
+  - conclusion_cta
+narrative: "problem_solution_result"
+suggested_slides: 9
+style_hints:
+  background: "Dark gradient (#0F0E17 to #1A1A2E) with soft ambient lighting spots. Subtle depth-of-field blur effects."
+  typography: "Modern geometric sans-serif (Poppins / Montserrat). Bold headings with subtle text shadows for depth. Clean white body text."
+  colors:
+    - "#6C63FF"
+    - "#FF6584"
+    - "#43E97B"
+    - "#0F0E17"
+    - "#FFFFFF"
+    - "#38F9D7"
+  layout: "Floating cards with perspective transforms. Layered elements with depth shadows. Isometric grids. 3D card stacks."
+  visual: "3D floating shapes, isometric illustrations, dimensional icons with long shadows, glassmorphism cards, ambient light orbs, perspective grids."

@@ -1,0 +1,25 @@
+name: "Neon Dark"
+description: "Dark mode with vivid neon accents — for developer talks, gaming, nightlife, and edgy creative presentations"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - data_dashboard
+  - case_study
+  - conclusion_cta
+narrative: "problem_solution_result"
+suggested_slides: 8
+style_hints:
+  background: "Near-black (#0D1117) with subtle dark grid. Neon color glow bleeds from edges and accent elements."
+  typography: "Monospace headings (Fira Code / JetBrains Mono style) for tech feel. Clean sans-serif body. Neon-colored keywords."
+  colors:
+    - "#0D1117"
+    - "#58A6FF"
+    - "#3FB950"
+    - "#F78166"
+    - "#D2A8FF"
+    - "#FFFFFF"
+  layout: "Terminal/code-editor inspired layouts. Content in dark cards with neon borders. Status bar footer. Tab-style navigation."
+  visual: "Neon glow borders, terminal-style code blocks, blinking cursor accents, circuit board patterns, LED dot matrix elements."

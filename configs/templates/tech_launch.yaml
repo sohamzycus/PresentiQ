@@ -1,0 +1,25 @@
+name: "Tech Launch"
+description: "Apple/Google launch event style — product-first, dramatic reveals, for tech product and feature launches"
+sequence:
+  - title
+  - content
+  - content
+  - content
+  - data_dashboard
+  - comparison
+  - content
+  - conclusion_cta
+narrative: "story_driven"
+suggested_slides: 8
+style_hints:
+  background: "Pure black (#000000) or dark gray gradient (#1D1D1F). Dramatic spotlight effects. Stage-lighting feel."
+  typography: "Extra-large bold headings (SF Pro / Helvetica Neue Bold). Prominent spec numbers. Minimal body text. One statement per slide."
+  colors:
+    - "#000000"
+    - "#1D1D1F"
+    - "#F5F5F7"
+    - "#0071E3"
+    - "#FFFFFF"
+    - "#FF3B30"
+  layout: "Product centered with massive negative space. One selling point per slide. Spec numbers in huge type. Before/after reveals."
+  visual: "Product renders with spotlight, spec comparison tables, performance benchmark charts, dramatic light-and-shadow effects, feature callout arrows."

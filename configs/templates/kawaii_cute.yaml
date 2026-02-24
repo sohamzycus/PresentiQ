@@ -1,0 +1,25 @@
+name: "Kawaii Cute"
+description: "Soft pastel sweet style with rounded elements — for kids content, beauty, lifestyle, and playful presentations"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - content
+  - case_study
+  - conclusion_cta
+narrative: "story_driven"
+suggested_slides: 8
+style_hints:
+  background: "Gradient pink to lavender to cream. Soft cloud shapes. Tiny star/heart particles scattered."
+  typography: "Rounded cute fonts (Quicksand / Nunito Rounded). Moderate emoji use. Bubbly and friendly sizing."
+  colors:
+    - "#FFB6C1"
+    - "#E6E6FA"
+    - "#FFEFD5"
+    - "#87CEEB"
+    - "#FFFFFF"
+    - "#FF69B4"
+  layout: "Rounded cards with thick pastel borders. Speech bubble callouts. Sticker-style floating elements. Playful, slightly irregular."
+  visual: "Cute kawaii illustrations, sticker-style icons, sparkle/star accents, cloud shapes, heart decorations, ribbon banners, soft blob backgrounds."

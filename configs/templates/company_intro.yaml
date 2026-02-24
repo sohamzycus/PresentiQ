@@ -1,0 +1,25 @@
+name: "Company Introduction"
+description: "For corporate promotion, partnership discussions, recruitment presentations, and brand storytelling"
+sequence:
+  - title
+  - content
+  - content
+  - timeline
+  - content
+  - case_study
+  - data_dashboard
+  - conclusion_cta
+narrative: "story_driven"
+suggested_slides: 8
+style_hints:
+  background: "White base with brand-color accent bars. Alternating white and light gray sections. Professional and polished."
+  typography: "Modern corporate sans-serif (Segoe UI / Roboto). Bold headings in brand navy. Clean, trustworthy body text."
+  colors:
+    - "#003366"
+    - "#FFFFFF"
+    - "#F0F4F8"
+    - "#0077B6"
+    - "#333333"
+    - "#E8ECF1"
+  layout: "Hero statement slides. Timeline for company history. Team grid layout. Client logo showcase. Mission/vision side-by-side."
+  visual: "Company milestone timeline, team member cards, client logo grids, office/culture imagery placeholders, value proposition icons."

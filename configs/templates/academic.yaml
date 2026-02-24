@@ -1,0 +1,26 @@
+name: "Academic Presentation"
+description: "For academic conferences, thesis defense, research reports, and scholarly talks"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - data_dashboard
+  - content
+  - case_study
+  - conclusion_cta
+narrative: "chronological"
+suggested_slides: 9
+style_hints:
+  background: "Clean white (#FFFFFF) with subtle warm gray (#F9F9F9) alternating sections. Thin colored top border bar."
+  typography: "Serif headings (Georgia / Merriweather) for scholarly feel. Clean sans-serif body (Open Sans). Footnote-style citations."
+  colors:
+    - "#8B0000"
+    - "#FFFFFF"
+    - "#F9F9F9"
+    - "#1A1A1A"
+    - "#2C5F7C"
+    - "#666666"
+  layout: "Structured two-column layouts. Numbered sections. Citation footnotes at bottom. Clear figure/table labels."
+  visual: "Clean charts with labeled axes, numbered figures, table layouts, reference citation blocks, university crest placement area."

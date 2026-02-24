@@ -1,0 +1,25 @@
+name: "Instagram Style"
+description: "Premium influencer aesthetic with warm filters — for fashion, travel, lifestyle, and social media content"
+sequence:
+  - title
+  - content
+  - content
+  - content
+  - content
+  - case_study
+  - content
+  - conclusion_cta
+narrative: "story_driven"
+suggested_slides: 8
+style_hints:
+  background: "Warm cream white (#F5F5F0) or soft beige. Warm film-grain overlay. Muted, desaturated tones throughout."
+  typography: "Minimal thin sans-serif headings (Helvetica Neue Light / Lato Thin). Fine-weight body text. Generous letter-spacing. Lowercase aesthetic."
+  colors:
+    - "#F5F5F0"
+    - "#C9B8A8"
+    - "#8B7355"
+    - "#2C2C2C"
+    - "#E8DDD3"
+    - "#A0522D"
+  layout: "Large whitespace (70%+). Image-dominant with small text overlays. Centered minimal compositions. Story-card format."
+  visual: "Cinematic warm-filter photography style, film grain texture, minimal line accents, polaroid-style frames, serif quote callouts."

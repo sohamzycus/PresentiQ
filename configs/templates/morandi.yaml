@@ -1,0 +1,25 @@
+name: "Morandi"
+description: "Low saturation premium grays — gentle, elegant, sophisticated, for fashion, art, lifestyle, and luxury brands"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - comparison
+  - content
+  - case_study
+  - conclusion_cta
+narrative: "story_driven"
+suggested_slides: 8
+style_hints:
+  background: "Muted Morandi tones — gray-pink, gray-blue, beige-gray. Soft, desaturated, like a faded painting. Subtle linen texture."
+  typography: "Elegant serif headings (Cormorant Garamond / EB Garamond). Thin sans-serif body. Refined letter-spacing. Understated luxury."
+  colors:
+    - "#B4A7A7"
+    - "#A7B4B4"
+    - "#C4B7A6"
+    - "#A6B4C4"
+    - "#FFFFFF"
+    - "#5A5A5A"
+  layout: "Asymmetric balance with artistic whitespace. Off-center compositions. Overlapping muted color blocks. Elegant negative space."
+  visual: "Soft desaturated photography, abstract muted color blocks, thin line art, subtle texture overlays, elegant divider lines."

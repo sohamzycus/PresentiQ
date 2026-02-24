@@ -1,0 +1,26 @@
+name: "Healthcare & Medical"
+description: "Clean, trustworthy medical theme — for healthcare presentations, pharma, research, and wellness topics"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - content
+  - data_dashboard
+  - case_study
+  - conclusion_cta
+narrative: "problem_solution_result"
+suggested_slides: 9
+style_hints:
+  background: "Clean white with soft teal/blue gradient accents. Subtle DNA helix or molecular pattern watermarks at low opacity."
+  typography: "Modern, clean sans-serif (Open Sans / Roboto). Professional and highly readable. Teal headings, dark gray body."
+  colors:
+    - "#0097A7"
+    - "#FFFFFF"
+    - "#E0F7FA"
+    - "#00695C"
+    - "#37474F"
+    - "#B2EBF2"
+  layout: "Clean grid layouts. Info cards with rounded corners and teal accents. Icon + text pairs. Clear data visualization areas."
+  visual: "Medical cross icons, heartbeat line accents, molecular/DNA illustrations, clean health icons, subtle pulse-line dividers, shield/trust badges."

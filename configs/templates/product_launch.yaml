@@ -1,0 +1,25 @@
+name: "Product Launch"
+description: "For product launch events, feature demos, product introductions, and release announcements"
+sequence:
+  - title
+  - content
+  - content
+  - content
+  - comparison
+  - data_dashboard
+  - case_study
+  - conclusion_cta
+narrative: "story_driven"
+suggested_slides: 8
+style_hints:
+  background: "Dark gradient (#1A1A2E to #16213E) for hero slides, clean white for feature details. Dramatic contrast."
+  typography: "Bold modern sans-serif (SF Pro / Inter). Oversized product name. Feature labels in medium weight. Specs in monospace."
+  colors:
+    - "#1A1A2E"
+    - "#FFFFFF"
+    - "#6C63FF"
+    - "#00D4AA"
+    - "#F5F5F5"
+    - "#FF6B6B"
+  layout: "Hero product showcase slides. Feature highlight cards. Before/after comparison. Pricing table. Spec grid."
+  visual: "Product mockup placeholders, feature icon grids, comparison tables, pricing cards, device frames, gradient accent shapes."

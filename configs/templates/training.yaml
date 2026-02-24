@@ -1,0 +1,26 @@
+name: "Training Course"
+description: "For internal training, workshops, teaching demos, and knowledge sharing sessions"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - content
+  - content
+  - case_study
+  - conclusion_cta
+narrative: "chronological"
+suggested_slides: 9
+style_hints:
+  background: "Light blue-gray (#F0F4F8) base. Clean white content cards. Colored left-border accent on key sections."
+  typography: "Friendly sans-serif (Nunito / Open Sans). Clear hierarchy — module numbers, section titles, bullet points. Readable at distance."
+  colors:
+    - "#2196F3"
+    - "#FFFFFF"
+    - "#F0F4F8"
+    - "#1565C0"
+    - "#333333"
+    - "#FFC107"
+  layout: "Module-based structure. Numbered steps. Key takeaway boxes highlighted in yellow. Quiz/exercise sections with distinct styling."
+  visual: "Step number badges, checklist icons, lightbulb tip callouts, warning/note boxes, progress indicators, key takeaway highlight cards."

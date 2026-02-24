@@ -1,0 +1,25 @@
+name: "Muji Minimal"
+description: "Muji-inspired natural minimalism — unadorned, warm, for lifestyle, culture, and mindful design topics"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - content
+  - case_study
+  - conclusion_cta
+narrative: "story_driven"
+suggested_slides: 8
+style_hints:
+  background: "Warm cream white (#F7F5F0) or natural linen. Subtle wood grain or kraft paper texture at low opacity."
+  typography: "Fine-weight sans-serif (Noto Sans / Lato Light). Generous breathing whitespace around text. Understated and calm."
+  colors:
+    - "#F7F5F0"
+    - "#D4C4B0"
+    - "#8B7355"
+    - "#333333"
+    - "#FFFFFF"
+    - "#A0937D"
+  layout: "Minimal grid with 60%+ whitespace. Natural alignment. Single focal element per slide. Content breathes."
+  visual: "Natural material textures (wood, linen, stone), simple line illustrations, Muji-style product photography, subtle shadow, minimal iconography."

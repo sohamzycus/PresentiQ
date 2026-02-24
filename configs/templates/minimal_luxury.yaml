@@ -1,0 +1,24 @@
+name: "Minimal Luxury"
+description: "Apple Keynote style — ample whitespace, extreme simplicity, premium feel for product and brand showcases"
+sequence:
+  - title
+  - content
+  - content
+  - content
+  - content
+  - data_dashboard
+  - content
+  - conclusion_cta
+narrative: "story_driven"
+suggested_slides: 8
+style_hints:
+  background: "Pure white (#FFFFFF) or pure black (#000000). Alternating for dramatic effect. Zero noise, zero texture."
+  typography: "San Francisco / Helvetica Neue style. Extra-large thin headings. Slender body text. Precise kerning. Premium feel."
+  colors:
+    - "#000000"
+    - "#FFFFFF"
+    - "#86868B"
+    - "#0071E3"
+    - "#F5F5F7"
+  layout: "Centered symmetry. 70%+ whitespace. One hero element per slide. Product centered with dramatic negative space."
+  visual: "Product hero renders, borderless imagery, soft ambient shadows, single accent color for CTAs, clean line separators."

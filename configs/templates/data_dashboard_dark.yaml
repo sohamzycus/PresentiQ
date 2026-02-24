@@ -1,0 +1,26 @@
+name: "Data Dashboard Dark"
+description: "Dark analytics dashboard style — for data-heavy presentations, KPI reviews, and business intelligence"
+sequence:
+  - title
+  - toc
+  - data_dashboard
+  - data_dashboard
+  - data_dashboard
+  - content
+  - content
+  - case_study
+  - conclusion_cta
+narrative: "problem_solution_result"
+suggested_slides: 9
+style_hints:
+  background: "Dark charcoal (#1E1E2E) or near-black. Subtle grid lines. Dashboard panel aesthetic."
+  typography: "Clean monospace for numbers/metrics (Roboto Mono). Sans-serif for labels. Large bold KPI numbers. Small subtle labels."
+  colors:
+    - "#1E1E2E"
+    - "#00D4AA"
+    - "#FF6B6B"
+    - "#FFD93D"
+    - "#6C63FF"
+    - "#FFFFFF"
+  layout: "Dashboard grid — multiple metric cards per slide. KPI tiles with big numbers. Sparkline chart areas. Status indicators."
+  visual: "Metric cards with colored left borders, sparkline mini-charts, progress rings, status dots (green/yellow/red), trend arrows, gauge meters."

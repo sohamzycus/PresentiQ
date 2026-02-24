@@ -1,0 +1,25 @@
+name: "Vintage Retro"
+description: "Retro tones, classic typography — for brand stories, history, heritage, and nostalgic content"
+sequence:
+  - title
+  - timeline
+  - content
+  - content
+  - content
+  - case_study
+  - content
+  - conclusion_cta
+narrative: "chronological"
+suggested_slides: 8
+style_hints:
+  background: "Yellowed parchment (#F5E6C8) or aged paper texture. Subtle coffee stain marks. Worn edges effect."
+  typography: "Retro serif fonts (Playfair Display / Abril Fatface) for headings. Typewriter monospace (Courier) for body. Vintage stamp labels."
+  colors:
+    - "#8B4513"
+    - "#DEB887"
+    - "#2F4F4F"
+    - "#CD853F"
+    - "#F5E6C8"
+    - "#800020"
+  layout: "Ornate border decorations. Badge/emblem labels. Symmetrical centered layouts. Ribbon banners for section titles."
+  visual: "Aged photo effects (sepia), vintage illustrations, postage stamp stickers, wax seal accents, ornamental borders, typewriter text blocks."

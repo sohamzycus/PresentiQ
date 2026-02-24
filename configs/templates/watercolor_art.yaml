@@ -1,0 +1,25 @@
+name: "Watercolor Art"
+description: "Artistic watercolor washes and hand-painted feel — for creative portfolios, art showcases, and storytelling"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - content
+  - case_study
+  - conclusion_cta
+narrative: "story_driven"
+suggested_slides: 8
+style_hints:
+  background: "Soft watercolor wash backgrounds — blending pastels like blush pink, lavender, soft teal, and warm peach. Uneven, painterly edges."
+  typography: "Handwritten-style headings (brush script feel) paired with elegant serif body text. Warm and personal."
+  colors:
+    - "#E8A0BF"
+    - "#BA90C6"
+    - "#C0DBEA"
+    - "#FFF8E8"
+    - "#7286D3"
+    - "#2C3E50"
+  layout: "Fluid, organic layouts. Content floats on watercolor splashes. Irregular borders and paint-drip accents."
+  visual: "Watercolor blobs, paint splatter accents, brush stroke dividers, hand-drawn icons, soft color bleeds between sections."

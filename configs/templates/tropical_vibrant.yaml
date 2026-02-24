@@ -1,0 +1,25 @@
+name: "Tropical Vibrant"
+description: "Lush tropical colors and botanical vibes — for travel, hospitality, events, and summer-themed presentations"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - content
+  - data_dashboard
+  - conclusion_cta
+narrative: "story_driven"
+suggested_slides: 8
+style_hints:
+  background: "Rich coral-to-teal gradients. Tropical leaf silhouettes in corners. Warm sunset color washes."
+  typography: "Bold playful sans-serif headings (Poppins Bold). Warm white body text. Fun and energetic sizing."
+  colors:
+    - "#FF6F61"
+    - "#00BFA5"
+    - "#FFD54F"
+    - "#FF8A65"
+    - "#FFFFFF"
+    - "#1A237E"
+  layout: "Layered compositions with tropical leaf overlays framing content. Content in white/frosted cards. Flowing, organic arrangements."
+  visual: "Tropical leaf silhouettes (monstera, palm), flamingo/toucan accents, sunset gradients, wave patterns, hibiscus flower accents, coconut/pineapple icons."

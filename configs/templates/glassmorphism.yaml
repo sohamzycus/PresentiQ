@@ -1,0 +1,26 @@
+name: "Glassmorphism"
+description: "Frosted glass effect, transparent layers — for tech showcases, app demos, and modern UI presentations"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - data_dashboard
+  - content
+  - case_study
+  - conclusion_cta
+narrative: "problem_solution_result"
+suggested_slides: 9
+style_hints:
+  background: "Vibrant gradient backgrounds (purple to pink to blue). Blurred colorful light spots. Mesh gradient base."
+  typography: "Modern sans-serif (Inter / SF Pro). White text with subtle shadow for readability over glass. Clean and crisp."
+  colors:
+    - "#667eea"
+    - "#764ba2"
+    - "#f093fb"
+    - "#f5576c"
+    - "#FFFFFF"
+    - "#43e97b"
+  layout: "Frosted glass cards (backdrop-blur, semi-transparent white). Rounded corners (20px+). Layered overlapping panels. Floating elements."
+  visual: "Frosted glass panels, colorful gradient blobs behind glass, 3D icons, subtle border glow, light refraction effects, translucent overlays."

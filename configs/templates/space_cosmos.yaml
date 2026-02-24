@@ -1,0 +1,26 @@
+name: "Space & Cosmos"
+description: "Deep space theme with nebula colors and star fields — for science, astronomy, innovation, and visionary topics"
+sequence:
+  - title
+  - toc
+  - content
+  - content
+  - content
+  - content
+  - data_dashboard
+  - timeline
+  - conclusion_cta
+narrative: "problem_solution_result"
+suggested_slides: 9
+style_hints:
+  background: "Deep space black (#0B0B1A) with purple/blue nebula gradients. Scattered star particles. Cosmic dust clouds."
+  typography: "Modern geometric sans-serif (Exo 2 / Orbitron style for headings). Clean white body text. Futuristic but readable."
+  colors:
+    - "#0B0B1A"
+    - "#7B2FBE"
+    - "#00D4FF"
+    - "#FF6B9D"
+    - "#FFFFFF"
+    - "#1E3A5F"
+  layout: "Content floating in space. Circular/orbital layouts for related items. Constellation-style connecting lines between points."
+  visual: "Star field particles, nebula gradient blobs, planet/orbit illustrations, constellation line patterns, comet trail accents, glowing rings."
