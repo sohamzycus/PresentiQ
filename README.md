@@ -21,6 +21,7 @@ Slides are rendered as pixel-perfect HTML/CSS by the LLM, then screenshotted to 
 - **Intelligent Error Handling** — Automatic retries, prompt simplification, and graceful fallbacks
 - **Custom Templates** — Create your own via simple YAML files
 - **Editable Slides** — Append fully editable text slides (team members, thank you, etc.)
+- **Web UI** — Beautiful browser-based interface with live progress streaming
 
 ## Quick Start
 
@@ -82,7 +83,14 @@ python presentiq.py --personas    # 10 presenter personas
 python presentiq.py --audiences   # 8 target audiences
 ```
 
-That's it. No Python code to write. Describe your topic, define who you are and who you're presenting to, and PresentiQ handles the rest — persona-aware content generation, intelligent template selection, slide design, and PPTX export.
+**Launch the Web UI:**
+
+```bash
+python app.py                    # Open http://localhost:5000
+python app.py --port 8080        # Custom port
+```
+
+That's it. No Python code to write. Describe your topic, define who you are and who you're presenting to, and PresentiQ handles the rest — persona-aware content generation, intelligent template selection, slide design, and PPTX export. Use the CLI for scripting or the Web UI for a visual experience.
 
 ### Full Setup (with virtual environment)
 
@@ -424,6 +432,9 @@ PresentiQ/
 |   +-- cache_manager.py            # Cache management
 |   +-- error_handler.py            # Smart error handling & retries
 |   +-- claude_client.py            # Unified AI client (Claude / OpenAI / DeepSeek)
++-- templates/
+|   +-- index.html                  # Web UI (single-page app)
++-- app.py                          # Web UI server (Flask)
 +-- presentiq.py                    # CLI entry point (natural language input)
 +-- example.py                      # Interactive template picker demo
 +-- run_ai_citizen_services.py      # Sample: school project generator

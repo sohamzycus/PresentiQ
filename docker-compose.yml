@@ -1,0 +1,26 @@
+services:
+  presentiq:
+    build: .
+    container_name: presentiq
+    restart: unless-stopped
+    ports:
+      - "${PORT:-8080}:8080"
+    env_file:
+      - .env
+    environment:
+      - PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers
+    volumes:
+      # Persist generated presentations across restarts
+      - presentiq-output:/app/output
+      # Persist outline/image cache
+      - presentiq-cache:/app/.cache
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/')"]
+      interval: 30s
+      timeout: 5s
+      start_period: 15s
+      retries: 3
+
+volumes:
+  presentiq-output:
+  presentiq-cache:

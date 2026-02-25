@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PresentiQ — AI Presentation Generator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --surface: rgba(255,255,255,0.04);
+  --surface-hover: rgba(255,255,255,0.07);
+  --border: rgba(255,255,255,0.08);
+  --border-focus: rgba(124,58,237,0.5);
+  --text: #e4e4e7;
+  --text-muted: #71717a;
+  --text-dim: #52525b;
+  --accent: #7c3aed;
+  --accent-light: #a78bfa;
+  --accent-glow: rgba(124,58,237,0.15);
+  --success: #10b981;
+  --error: #ef4444;
+  --warning: #f59e0b;
+  --radius: 12px;
+  --radius-lg: 16px;
+  --radius-sm: 8px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Ambient background */
+body::before {
+  content: '';
+  position: fixed;
+  top: -40%; left: -20%;
+  width: 80vw; height: 80vw;
+  background: radial-gradient(circle, rgba(124,58,237,0.08) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+body::after {
+  content: '';
+  position: fixed;
+  bottom: -30%; right: -10%;
+  width: 60vw; height: 60vw;
+  background: radial-gradient(circle, rgba(16,185,129,0.05) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.app { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding: 40px 20px 80px; }
+
+/* Header */
+.header { text-align: center; margin-bottom: 48px; }
+.logo {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent-light);
+  margin-bottom: 16px;
+}
+.header h1 {
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  background: linear-gradient(135deg, #fff 0%, var(--accent-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.15;
+}
+.header p {
+  color: var(--text-muted);
+  font-size: 16px;
+  margin-top: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* Card */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Form */
+.form-group { margin-bottom: 24px; }
+.form-group:last-child { margin-bottom: 0; }
+
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+label .hint {
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--text-dim);
+  font-size: 12px;
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 15px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+input::placeholder, textarea::placeholder { color: var(--text-dim); }
+
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2371717a' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+select option { background: #1a1a2e; color: var(--text); }
+
+textarea { resize: vertical; min-height: 80px; }
+
+/* Row layout */
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+/* Slider */
+.slider-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.slider-wrapper input[type="range"] {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.1);
+  outline: none;
+  border: none;
+  padding: 0;
+}
+.slider-wrapper input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+.slider-value {
+  min-width: 36px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--accent-light);
+}
+
+/* Theme selector */
+.theme-selector { position: relative; }
+.theme-current {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: border-color 0.2s;
+}
+.theme-current:hover { border-color: var(--border-focus); }
+.theme-current .arrow { color: var(--text-dim); font-size: 11px; }
+
+.theme-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0; right: 0;
+  max-height: 320px;
+  overflow-y: auto;
+  background: #16161e;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  z-index: 100;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+.theme-dropdown.open { display: block; }
+.theme-group-label {
+  padding: 10px 16px 4px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent-light);
+}
+.theme-option {
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  transition: background 0.15s;
+}
+.theme-option:hover { background: rgba(124,58,237,0.12); }
+.theme-option .desc { color: var(--text-dim); font-size: 12px; }
+.theme-option.selected { background: var(--accent-glow); color: var(--accent-light); }
+
+/* Submit button */
+.btn-generate {
+  width: 100%;
+  padding: 16px;
+  margin-top: 32px;
+  background: linear-gradient(135deg, var(--accent) 0%, #6d28d9 100%);
+  color: #fff;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  transition: transform 0.15s, box-shadow 0.2s, opacity 0.2s;
+  box-shadow: 0 4px 24px rgba(124,58,237,0.3);
+  position: relative;
+  overflow: hidden;
+}
+.btn-generate:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 32px rgba(124,58,237,0.45);
+}
+.btn-generate:active:not(:disabled) { transform: translateY(0); }
+.btn-generate:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Progress panel */
+.progress-panel {
+  display: none;
+  margin-top: 32px;
+}
+.progress-panel.visible { display: block; }
+
+.progress-steps { list-style: none; }
+.progress-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.progress-step:last-child { border-bottom: none; }
+
+.step-icon {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 13px;
+  margin-top: 1px;
+}
+.step-icon.pending { background: rgba(255,255,255,0.06); color: var(--text-dim); }
+.step-icon.active {
+  background: var(--accent-glow);
+  color: var(--accent-light);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+.step-icon.done { background: rgba(16,185,129,0.15); color: var(--success); }
+.step-icon.error { background: rgba(239,68,68,0.15); color: var(--error); }
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(124,58,237,0.3); }
+  50% { box-shadow: 0 0 0 8px rgba(124,58,237,0); }
+}
+
+.step-text { flex: 1; }
+.step-label { font-weight: 600; font-size: 14px; }
+.step-detail { color: var(--text-muted); font-size: 13px; margin-top: 2px; }
+
+/* Result panel */
+.result-panel {
+  display: none;
+  margin-top: 32px;
+  text-align: center;
+}
+.result-panel.visible { display: block; }
+
+.result-success {
+  padding: 32px;
+  background: rgba(16,185,129,0.06);
+  border: 1px solid rgba(16,185,129,0.15);
+  border-radius: var(--radius-lg);
+}
+.result-success h3 {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--success);
+  margin-bottom: 8px;
+}
+.result-success p { color: var(--text-muted); margin-bottom: 20px; }
+.result-stats {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 24px;
+}
+.stat { text-align: center; }
+.stat-value { font-size: 28px; font-weight: 800; color: var(--text); }
+.stat-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+
+.btn-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  background: var(--success);
+  color: #fff;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 4px 16px rgba(16,185,129,0.3);
+  text-decoration: none;
+}
+.btn-download:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(16,185,129,0.4);
+}
+
+.btn-new {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 10px 24px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-new:hover { border-color: var(--text-muted); color: var(--text); }
+
+.result-error {
+  padding: 24px;
+  background: rgba(239,68,68,0.06);
+  border: 1px solid rgba(239,68,68,0.15);
+  border-radius: var(--radius-lg);
+}
+.result-error h3 { color: var(--error); margin-bottom: 8px; }
+.result-error p { color: var(--text-muted); word-break: break-word; }
+
+/* Footer */
+.footer {
+  text-align: center;
+  margin-top: 48px;
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.footer a { color: var(--accent-light); text-decoration: none; }
+.footer a:hover { text-decoration: underline; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+
+/* Responsive */
+@media (max-width: 600px) {
+  .app { padding: 24px 16px 60px; }
+  .header h1 { font-size: 28px; }
+  .card { padding: 20px; }
+  .row, .row-3 { grid-template-columns: 1fr; }
+  .result-stats { gap: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">PresentiQ</div>
+    <h1>AI Presentation Generator</h1>
+    <p>Describe your topic, define your persona, and get a polished slide deck in minutes.</p>
+  </header>
+
+  <!-- Form Card -->
+  <div class="card" id="formCard">
+    <form id="genForm" autocomplete="off">
+
+      <!-- Topic -->
+      <div class="form-group">
+        <label for="topic">Topic <span class="hint">— What's your presentation about?</span></label>
+        <textarea id="topic" name="topic" placeholder="e.g. AI in Healthcare, Startup pitch for a food delivery app, Q4 Revenue Results..." rows="2" required></textarea>
+      </div>
+
+      <!-- Slides -->
+      <div class="form-group">
+        <label>Slides</label>
+        <div class="slider-wrapper">
+          <input type="range" id="slides" name="slides" min="3" max="20" value="10">
+          <span class="slider-value" id="slidesValue">10</span>
+        </div>
+      </div>
+
+      <!-- Persona & Audience -->
+      <div class="row">
+        <div class="form-group">
+          <label for="persona">Persona <span class="hint">— Who are you?</span></label>
+          <select id="persona" name="persona">
+            <option value="">Auto-detect</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="audience">Audience <span class="hint">— Who's watching?</span></label>
+          <select id="audience" name="audience">
+            <option value="">Auto-detect</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Theme -->
+      <div class="form-group">
+        <label>Theme <span class="hint">— Auto-selected based on persona & topic, or pick one</span></label>
+        <div class="theme-selector" id="themeSelector">
+          <div class="theme-current" id="themeCurrent" tabindex="0">
+            <span id="themeLabel">Auto-detect</span>
+            <span class="arrow">&#9662;</span>
+          </div>
+          <div class="theme-dropdown" id="themeDropdown">
+            <div class="theme-option selected" data-value="">Auto-detect</div>
+          </div>
+        </div>
+        <input type="hidden" id="theme" name="theme" value="">
+      </div>
+
+      <button type="submit" class="btn-generate" id="btnGenerate">
+        Generate Presentation
+      </button>
+    </form>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-panel" id="progressPanel">
+    <div class="card">
+      <ul class="progress-steps" id="progressSteps">
+        <li class="progress-step" data-step="persona">
+          <div class="step-icon pending" id="iconPersona">1</div>
+          <div class="step-text">
+            <div class="step-label">Persona & Audience Analysis</div>
+            <div class="step-detail" id="detailPersona">Waiting...</div>
+          </div>
+        </li>
+        <li class="progress-step" data-step="content">
+          <div class="step-icon pending" id="iconContent">2</div>
+          <div class="step-text">
+            <div class="step-label">Content Generation</div>
+            <div class="step-detail" id="detailContent">Waiting...</div>
+          </div>
+        </li>
+        <li class="progress-step" data-step="rendering">
+          <div class="step-icon pending" id="iconRendering">3</div>
+          <div class="step-text">
+            <div class="step-label">Slide Rendering</div>
+            <div class="step-detail" id="detailRendering">Waiting...</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Result -->
+  <div class="result-panel" id="resultPanel"></div>
+
+  <div class="footer">
+    Built with <a href="https://github.com/sohamzycus/PresentiQ" target="_blank">PresentiQ</a> — open source AI presentation generator
+  </div>
+</div>
+
+<script>
+(function() {
+  const $ = (s) => document.querySelector(s);
+  const form = $('#genForm');
+  const btn = $('#btnGenerate');
+  const slider = $('#slides');
+  const slidesVal = $('#slidesValue');
+  const progressPanel = $('#progressPanel');
+  const resultPanel = $('#resultPanel');
+  const themeSelector = $('#themeSelector');
+  const themeCurrent = $('#themeCurrent');
+  const themeDropdown = $('#themeDropdown');
+  const themeInput = $('#theme');
+  const themeLabel = $('#themeLabel');
+
+  let selectedTheme = '';
+
+  // Slider
+  slider.addEventListener('input', () => { slidesVal.textContent = slider.value; });
+
+  // Load options
+  fetch('/api/options').then(r => r.json()).then(data => {
+    const personaSel = $('#persona');
+    data.personas.forEach(p => {
+      const opt = document.createElement('option');
+      opt.value = p.key;
+      opt.textContent = p.label;
+      personaSel.appendChild(opt);
+    });
+
+    const audienceSel = $('#audience');
+    data.audiences.forEach(a => {
+      const opt = document.createElement('option');
+      opt.value = a.key;
+      opt.textContent = a.label;
+      audienceSel.appendChild(opt);
+    });
+
+    // Build theme dropdown
+    let currentGroup = '';
+    data.themes.forEach(t => {
+      if (t.group !== currentGroup) {
+        currentGroup = t.group;
+        const groupEl = document.createElement('div');
+        groupEl.className = 'theme-group-label';
+        groupEl.textContent = currentGroup;
+        themeDropdown.appendChild(groupEl);
+      }
+      const optEl = document.createElement('div');
+      optEl.className = 'theme-option';
+      optEl.dataset.value = t.key;
+      optEl.innerHTML = `<span>${t.label}</span><span class="desc">${t.description}</span>`;
+      optEl.addEventListener('click', () => selectTheme(t.key, t.label));
+      themeDropdown.appendChild(optEl);
+    });
+  });
+
+  // Theme dropdown toggle
+  themeCurrent.addEventListener('click', (e) => {
+    e.stopPropagation();
+    themeDropdown.classList.toggle('open');
+  });
+  document.addEventListener('click', () => themeDropdown.classList.remove('open'));
+  themeDropdown.addEventListener('click', (e) => e.stopPropagation());
+
+  function selectTheme(key, label) {
+    selectedTheme = key;
+    themeInput.value = key;
+    themeLabel.textContent = key ? label : 'Auto-detect';
+    themeDropdown.querySelectorAll('.theme-option').forEach(el => {
+      el.classList.toggle('selected', el.dataset.value === key);
+    });
+    themeDropdown.classList.remove('open');
+  }
+
+  // Icon helpers
+  function setIcon(id, state) {
+    const el = document.getElementById(id);
+    el.className = 'step-icon ' + state;
+    if (state === 'done') el.textContent = '✓';
+    else if (state === 'error') el.textContent = '✗';
+    else if (state === 'active') el.innerHTML = '<span style="display:inline-block;width:10px;height:10px;border:2px solid var(--accent-light);border-top-color:transparent;border-radius:50%;animation:spin .6s linear infinite"></span>';
+  }
+
+  // Add spin keyframe
+  const styleSheet = document.createElement('style');
+  styleSheet.textContent = '@keyframes spin{to{transform:rotate(360deg)}}';
+  document.head.appendChild(styleSheet);
+
+  // Submit
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const topic = $('#topic').value.trim();
+    if (!topic) return;
+
+    btn.disabled = true;
+    btn.textContent = 'Generating...';
+    progressPanel.classList.add('visible');
+    resultPanel.classList.remove('visible');
+    resultPanel.innerHTML = '';
+
+    // Reset progress
+    ['iconPersona','iconContent','iconRendering'].forEach(id => {
+      setIcon(id, 'pending');
+      document.getElementById(id).textContent = id === 'iconPersona' ? '1' : id === 'iconContent' ? '2' : '3';
+    });
+    $('#detailPersona').textContent = 'Waiting...';
+    $('#detailContent').textContent = 'Waiting...';
+    $('#detailRendering').textContent = 'Waiting...';
+
+    const payload = {
+      topic,
+      slides: parseInt(slider.value),
+      persona: $('#persona').value,
+      audience: $('#audience').value,
+      theme: themeInput.value,
+    };
+
+    fetch('/api/generate', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload),
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.error) {
+        showError(data.error);
+        return;
+      }
+      listenSSE(data.job_id);
+    })
+    .catch(err => showError(err.message));
+  });
+
+  function listenSSE(jobId) {
+    const es = new EventSource(`/api/stream/${jobId}`);
+
+    es.addEventListener('progress', (e) => {
+      const d = JSON.parse(e.data);
+      switch(d.step) {
+        case 'persona':
+          setIcon('iconPersona', 'active');
+          $('#detailPersona').textContent = d.message;
+          break;
+        case 'persona_done':
+          setIcon('iconPersona', 'done');
+          $('#detailPersona').textContent = d.message;
+          break;
+        case 'content':
+          setIcon('iconContent', 'active');
+          $('#detailContent').textContent = d.message;
+          break;
+        case 'content_done':
+          setIcon('iconContent', 'done');
+          $('#detailContent').textContent = d.message;
+          break;
+        case 'rendering':
+          setIcon('iconRendering', 'active');
+          $('#detailRendering').textContent = d.message;
+          break;
+      }
+    });
+
+    es.addEventListener('complete', (e) => {
+      es.close();
+      const d = JSON.parse(e.data);
+      setIcon('iconRendering', 'done');
+      $('#detailRendering').textContent = `${d.success_slides}/${d.total_slides} slides rendered`;
+      showSuccess(d);
+      btn.disabled = false;
+      btn.textContent = 'Generate Presentation';
+    });
+
+    es.addEventListener('error', (e) => {
+      if (e.data) {
+        const d = JSON.parse(e.data);
+        showError(d.message);
+      } else {
+        showError('Connection lost. Please try again.');
+      }
+      es.close();
+      btn.disabled = false;
+      btn.textContent = 'Generate Presentation';
+    });
+  }
+
+  function showSuccess(data) {
+    resultPanel.innerHTML = `
+      <div class="result-success">
+        <h3>Presentation Ready</h3>
+        <p>Your ${data.total_slides}-slide deck has been generated${data.template ? ' with the <strong>' + data.template.replace(/_/g,' ') + '</strong> theme' : ''}.</p>
+        <div class="result-stats">
+          <div class="stat">
+            <div class="stat-value">${data.success_slides}</div>
+            <div class="stat-label">Slides</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">${data.error_slides?.length || 0}</div>
+            <div class="stat-label">Errors</div>
+          </div>
+        </div>
+        <a class="btn-download" href="/api/download?path=${encodeURIComponent(data.pptx_file)}">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download PPTX
+        </a>
+        <br>
+        <button class="btn-new" onclick="location.reload()">Generate Another</button>
+      </div>
+    `;
+    resultPanel.classList.add('visible');
+  }
+
+  function showError(msg) {
+    resultPanel.innerHTML = `
+      <div class="result-error">
+        <h3>Generation Failed</h3>
+        <p>${msg}</p>
+        <br>
+        <button class="btn-new" onclick="location.reload()">Try Again</button>
+      </div>
+    `;
+    resultPanel.classList.add('visible');
+    btn.disabled = false;
+    btn.textContent = 'Generate Presentation';
+
+    // Mark current active step as error
+    ['iconPersona','iconContent','iconRendering'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el.classList.contains('active')) setIcon(id, 'error');
+    });
+  }
+
+})();
+</script>
+</body>
+</html>
