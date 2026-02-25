@@ -76,7 +76,8 @@ class OutlineGenerator:
         brand_guidelines: Dict = None,
         context_hints: Dict = None,
         model: str = "gpt-4",
-        template_preset: str = None
+        template_preset: str = None,
+        persona_context: Dict = None,
     ) -> Dict:
         """
         Two-stage outline generation (recommended) - Inspired by NotebookLM
@@ -92,12 +93,15 @@ class OutlineGenerator:
             context_hints: Additional context hints (optional)
             model: Model to use
             template_preset: Template preset name (optional)
+            persona_context: Persona/audience context from PersonaEngine (optional)
 
         Returns:
             Dict: Structured PPT outline
         """
         if template_preset:
             logger.info(f"Using template preset: {template_preset}")
+        if persona_context:
+            logger.info(f"Using persona context: {persona_context.get('presenter_persona', 'N/A')} -> {persona_context.get('audience_label', 'N/A')}")
         logger.info("Starting two-stage outline generation...")
 
         # ===== Stage 1: Document analysis =====
@@ -112,13 +116,14 @@ class OutlineGenerator:
 
         # ===== Stage 2: Generate outline from analysis =====
         logger.info("Stage 2: Generating outline from analysis...")
-        system_prompt = self._get_two_stage_system_prompt(template_preset)
+        system_prompt = self._get_two_stage_system_prompt(template_preset, persona_context)
         user_prompt = self._build_two_stage_user_prompt(
             doc_analysis,
             style_requirements,
             audience_profile,
             brand_guidelines,
-            template_preset
+            template_preset,
+            persona_context,
         )
 
         result = self.llm_client.generate_structured_response(
@@ -141,7 +146,7 @@ class OutlineGenerator:
         logger.info(f"Two-stage outline generation complete: {len(result.get('slides', []))} slides")
         return result
 
-    def _get_two_stage_system_prompt(self, template_preset: str = None) -> str:
+    def _get_two_stage_system_prompt(self, template_preset: str = None, persona_context: Dict = None) -> str:
         """Get two-stage generation system prompt"""
         base_prompt = """You are a PPT design architect, designing a PPT outline based on pre-analyzed document structure.
 
@@ -184,6 +189,21 @@ Ensure each slide contains:
 - layout_positions{}, visual_elements{}
 - emotional_tone, template_suggestion"""
 
+        if persona_context:
+            persona_block = "\n\n[PERSONA & AUDIENCE ADAPTATION]"
+            if persona_context.get("presenter_persona"):
+                persona_block += f"\nPresenter role: {persona_context['presenter_persona']}"
+            if persona_context.get("presenter_tone"):
+                persona_block += f"\nTone: {persona_context['presenter_tone']}"
+            if persona_context.get("audience_label"):
+                persona_block += f"\nTarget audience: {persona_context['audience_label']}"
+            if persona_context.get("content_guidance"):
+                persona_block += f"\nContent guidance: {persona_context['content_guidance']}"
+            if persona_context.get("tone_directive"):
+                persona_block += f"\nTone directive: {persona_context['tone_directive']}"
+            persona_block += "\n\nIMPORTANT: Adapt slide titles, content depth, language complexity, and emotional tone to match the presenter persona and target audience above."
+            base_prompt += persona_block
+
         # If template preset specified, add constraints
         template_presets = get_template_presets()
         if template_preset and template_preset in template_presets:
@@ -210,7 +230,8 @@ Important:
         style_requirements: str,
         audience_profile: Dict = None,
         brand_guidelines: Dict = None,
-        template_preset: str = None
+        template_preset: str = None,
+        persona_context: Dict = None,
     ) -> str:
         """Build two-stage generation user prompt"""
         prompt_parts = [
@@ -261,12 +282,31 @@ Important:
                 f"Expertise: {audience_profile.get('expertise', 'Medium')}",
                 f"Interests: {audience_profile.get('interests', 'General information')}"
             ])
+            if audience_profile.get("attention_span"):
+                prompt_parts.append(f"Attention span: {audience_profile['attention_span']}")
+            if audience_profile.get("visual_preference"):
+                prompt_parts.append(f"Visual preference: {audience_profile['visual_preference']}")
+            if audience_profile.get("content_depth"):
+                prompt_parts.append(f"Content depth: {audience_profile['content_depth']}")
         elif doc_analysis.get("target_audience"):
             prompt_parts.extend([
                 "",
                 "[Inferred Target Audience]",
                 doc_analysis.get("target_audience", "General Audience")
             ])
+
+        if persona_context:
+            prompt_parts.extend([
+                "",
+                "[PRESENTER PERSONA]",
+                f"Role: {persona_context.get('presenter_persona', 'Professional')}",
+                f"Tone: {persona_context.get('presenter_tone', 'professional')}",
+            ])
+            if persona_context.get("content_guidance"):
+                prompt_parts.append(f"Content guidance: {persona_context['content_guidance']}")
+            if persona_context.get("tone_directive"):
+                prompt_parts.append(f"Tone directive: {persona_context['tone_directive']}")
+            prompt_parts.append("Adapt all slide content to match this presenter's voice and audience expectations.")
 
         if brand_guidelines:
             prompt_parts.extend([

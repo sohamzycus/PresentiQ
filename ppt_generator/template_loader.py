@@ -159,6 +159,18 @@ class TemplateLoader:
             except Exception as e:
                 logger.error(f"Failed to load extra template {yaml_file}: {e}")
 
+    def register_dynamic_template(self, key: str, template: Dict) -> None:
+        """
+        Register a dynamically generated template at runtime (not persisted to disk).
+
+        Args:
+            key: Template key (used as template_preset value)
+            template: Template config dict with name, description, sequence, style_hints, etc.
+        """
+        self.load_all()
+        self._cache[key] = template
+        logger.info(f"Registered dynamic template: {key} — {template.get('name', key)}")
+
 
 # Global singleton
 _loader: Optional[TemplateLoader] = None
@@ -200,3 +212,14 @@ def reload_templates() -> Dict[str, Dict]:
         Dict[str, Dict]: Reloaded template preset dict
     """
     return get_template_loader().reload()
+
+
+def register_dynamic_template(key: str, template: Dict) -> None:
+    """
+    Register a dynamic template at runtime.
+
+    Args:
+        key: Template key
+        template: Template config dict
+    """
+    get_template_loader().register_dynamic_template(key, template)

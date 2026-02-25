@@ -343,7 +343,8 @@ class PromptTemplateSystem:
         total_slides: int,
         style_requirements: str,
         brand_colors: Dict = None,
-        style_hints: Dict = None
+        style_hints: Dict = None,
+        persona_context: Dict = None,
     ) -> str:
         """
         Build enhanced image generation prompt
@@ -355,6 +356,7 @@ class PromptTemplateSystem:
             style_requirements: Style requirements
             brand_colors: Brand colors (optional)
             style_hints: Template preset style hints (optional)
+            persona_context: Persona/audience context (optional)
 
         Returns:
             Structured image generation prompt
@@ -395,6 +397,22 @@ class PromptTemplateSystem:
                 "⚠️ Do NOT deviate from these visual requirements!",
                 "=" * 60,
             ])
+
+        # Persona/audience context for tone and content adaptation
+        if persona_context:
+            prompt_parts.extend([
+                "",
+                "[PERSONA & AUDIENCE CONTEXT]",
+            ])
+            if persona_context.get("presenter_persona"):
+                prompt_parts.append(f"  Presenter: {persona_context['presenter_persona']}")
+            if persona_context.get("presenter_tone"):
+                prompt_parts.append(f"  Tone: {persona_context['presenter_tone']}")
+            if persona_context.get("audience_label"):
+                prompt_parts.append(f"  Audience: {persona_context['audience_label']}")
+            if persona_context.get("tone_directive"):
+                prompt_parts.append(f"  Directive: {persona_context['tone_directive']}")
+            prompt_parts.append("  Adapt text tone, visual density, and language to match the above.")
 
         prompt_parts.extend([
             "",

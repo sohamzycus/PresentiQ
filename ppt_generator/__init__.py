@@ -88,7 +88,8 @@ class PPTGenerator:
         brand_references: List[str] = None,
         use_cache: bool = True,
         template_preset: str = None,
-        _extra_slides: List[Dict] = None
+        _extra_slides: List[Dict] = None,
+        persona_context: Dict = None,
     ) -> dict:
         """
         Synchronously generate PPT
@@ -105,6 +106,7 @@ class PPTGenerator:
             template_preset: Template preset name
             _extra_slides: Optional list of editable slide specs appended
                 after the generated image slides (e.g. team members, thank you).
+            persona_context: Persona/audience context from PersonaEngine (optional)
 
         Returns:
             dict: Generation result with file paths and info
@@ -113,7 +115,8 @@ class PPTGenerator:
             reference_text, style_requirements, output_dir, model,
             audience_profile, brand_guidelines, brand_references, use_cache,
             template_preset=template_preset,
-            _extra_slides=_extra_slides
+            _extra_slides=_extra_slides,
+            persona_context=persona_context,
         ))
 
     async def generate_ppt_async(
@@ -128,7 +131,8 @@ class PPTGenerator:
         use_cache: bool = True,
         max_concurrent: int = 4,
         template_preset: str = None,
-        _extra_slides: List[Dict] = None
+        _extra_slides: List[Dict] = None,
+        persona_context: Dict = None,
     ) -> dict:
         """
         Asynchronously generate PPT (recommended)
@@ -145,6 +149,7 @@ class PPTGenerator:
             max_concurrent: Max concurrency
             template_preset: Template preset name
             _extra_slides: Optional editable slides appended after image slides
+            persona_context: Persona/audience context from PersonaEngine (optional)
 
         Returns:
             dict: Generation result with file paths and details
@@ -154,7 +159,8 @@ class PPTGenerator:
             "two_stage": True,
             "cache_used": False,
             "style_anchored": True,
-            "template_preset": template_preset
+            "template_preset": template_preset,
+            "persona_context": persona_context,
         }
 
         # ===== Phase 1: Check cache =====
@@ -178,7 +184,8 @@ class PPTGenerator:
                     audience_profile=audience_profile,
                     brand_guidelines=brand_guidelines,
                     model=model,
-                    template_preset=template_preset
+                    template_preset=template_preset,
+                    persona_context=persona_context,
                 )
                 logger.info(f"Two-stage outline generation complete, {len(outline_result.get('slides', []))} slides")
 
@@ -217,7 +224,8 @@ class PPTGenerator:
                 output_dir=output_dir,
                 brand_references=brand_references,
                 max_concurrent=max_concurrent,
-                style_hints=style_hints
+                style_hints=style_hints,
+                persona_context=persona_context,
             )
 
             # Convert to standard format

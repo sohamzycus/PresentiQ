@@ -67,7 +67,8 @@ class BatchImageGenerator:
         output_dir: str,
         brand_references: List[str] = None,
         max_concurrent: int = 4,
-        style_hints: Dict = None
+        style_hints: Dict = None,
+        persona_context: Dict = None,
     ) -> List[BatchGenerationResult]:
         """
         Batch generate style-consistent slide images
@@ -80,11 +81,13 @@ class BatchImageGenerator:
             brand_references: Brand reference image paths (max 14)
             max_concurrent: Max concurrency
             style_hints: Template preset style hints (optional)
+            persona_context: Persona/audience context (optional)
 
         Returns:
             List[BatchGenerationResult]: Generation result list
         """
         self.style_hints = style_hints  # Save style hints
+        self.persona_context = persona_context  # Save persona context
         total_slides = len(slides)
         logger.info(f"Starting batch generation of {total_slides} slides, concurrency: {max_concurrent}")
         if style_hints:
@@ -443,13 +446,14 @@ class BatchImageGenerator:
         brand_references: List[str] = None
     ) -> str:
         """Build single slide prompt"""
-        # Use PromptTemplateSystem to build, pass style_hints
+        # Use PromptTemplateSystem to build, pass style_hints and persona_context
         prompt = self.prompt_system.build_image_prompt(
             slide_info=slide,
             slide_index=index,
             total_slides=total_slides,
             style_requirements=style_requirements,
-            style_hints=getattr(self, 'style_hints', None)
+            style_hints=getattr(self, 'style_hints', None),
+            persona_context=getattr(self, 'persona_context', None),
         )
 
         # If style anchor exists, add style consistency instructions

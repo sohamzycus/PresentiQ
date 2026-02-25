@@ -10,7 +10,9 @@ Slides are rendered as pixel-perfect HTML/CSS by the LLM, then screenshotted to 
 ## Key Features
 
 - **Natural Language Input** — Just describe your topic; PresentiQ generates the full presentation
-- **Auto Theme Detection** — AI picks the best template from 46 presets based on your topic
+- **Persona & Audience Targeting** — Define who you are and who you're presenting to; PresentiQ adapts theme, tone, content depth, and visuals automatically
+- **Auto Theme Detection** — AI picks the best template from 46 presets based on your topic, persona, and audience
+- **Dynamic Theme Generation** — When no preset fits perfectly, PresentiQ creates a persona-tuned theme on the fly
 - **Two-Stage Outline Generation** — Analyzes document structure first, then generates a precise outline
 - **HTML/CSS Slide Rendering** — LLM produces self-contained HTML for each slide; Playwright screenshots it to PNG
 - **Style-Anchored Batch Generation** — Generates the title slide first to establish a visual style, then enforces consistency
@@ -57,19 +59,30 @@ python presentiq.py "AI in Healthcare" --slides 10
 python presentiq.py "Startup pitch for a food delivery app" --slides 8 --theme startup_bold
 ```
 
+**Define your persona and audience — theme auto-adapts:**
+
+```bash
+python presentiq.py "AI in Healthcare" --persona founder --audience investors
+python presentiq.py "React vs Vue" --persona engineer --audience technical --slides 8
+python presentiq.py "Q4 Results" --persona executive --audience executives --slides 6
+python presentiq.py "Photosynthesis" --persona educator --audience students --slides 12
+```
+
 **Interactive mode — PresentiQ asks you questions:**
 
 ```bash
 python presentiq.py
 ```
 
-**See all 46 themes:**
+**See all options:**
 
 ```bash
-python presentiq.py --themes
+python presentiq.py --themes      # 46 available themes
+python presentiq.py --personas    # 10 presenter personas
+python presentiq.py --audiences   # 8 target audiences
 ```
 
-That's it. No Python code to write. Describe your topic, pick how many slides, and PresentiQ handles the rest — content generation, template selection, slide design, and PPTX export.
+That's it. No Python code to write. Describe your topic, define who you are and who you're presenting to, and PresentiQ handles the rest — persona-aware content generation, intelligent template selection, slide design, and PPTX export.
 
 ### Full Setup (with virtual environment)
 
@@ -263,6 +276,53 @@ result = generator.generate_ppt(
 | `academic_paper` | Academic Paper | NotebookLM-style research |
 | `training` | Training Course | Workshops, knowledge sharing |
 
+## Persona & Audience System
+
+PresentiQ's persona engine adapts every aspect of the presentation — theme selection, content tone, visual style, and information density — based on who you are and who you're presenting to.
+
+### Presenter Personas (10 built-in)
+
+| Key | Role | Tone |
+|---|---|---|
+| `founder` | Startup Founder / CEO | Visionary, bold, high-energy |
+| `executive` | C-Suite / VP Executive | Authoritative, data-driven, strategic |
+| `educator` | Teacher / Professor / Trainer | Clear, engaging, pedagogical |
+| `student` | Student (school / college) | Enthusiastic, clear, relatable |
+| `marketer` | Marketing / Brand Manager | Persuasive, trendy, visually rich |
+| `engineer` | Software Engineer / Architect | Precise, technical, structured |
+| `researcher` | Researcher / Scientist | Rigorous, evidence-based, methodical |
+| `designer` | Designer / Creative Director | Aesthetic, conceptual, inspiring |
+| `sales` | Sales / Business Development | Persuasive, benefit-focused, urgent |
+| `consultant` | Consultant / Advisor | Analytical, advisory, structured |
+
+### Target Audiences (8 built-in)
+
+| Key | Audience | Expectations |
+|---|---|---|
+| `investors` | Investors / VCs | ROI, traction, market size, team credibility |
+| `executives` | C-Suite / Board Members | Strategic impact, bottom-line results, risk |
+| `technical` | Engineers / Developers | Architecture, implementation details, trade-offs |
+| `general` | General / Mixed Audience | Clarity, engagement, takeaways |
+| `students` | Students / Learners | Clear explanations, examples, engagement |
+| `customers` | Customers / End Users | Benefits, ease of use, social proof |
+| `peers` | Industry Peers / Conference | Insights, novelty, credibility |
+| `team` | Internal Team / Colleagues | Alignment, action items, context |
+
+### How It Works
+
+1. **Persona resolution** — Maps your role to tone, priorities, and preferred themes
+2. **Audience analysis** — Determines content depth, visual preference, and attention span
+3. **LLM-powered theme selection** — AI picks the best template considering persona + audience + topic
+4. **Dynamic style overrides** — Generates persona-tuned style hints (colors, typography, layout) that overlay the base template
+5. **Content adaptation** — Outline generator adjusts language, data density, and narrative structure
+6. **Slide rendering** — Each slide prompt includes persona/audience context for consistent tone
+
+You can also pass free-form descriptions instead of predefined keys:
+
+```bash
+python presentiq.py "Kubernetes Migration" --persona "DevOps lead at a fintech startup" --audience "VP of Engineering and CTO"
+```
+
 ## Custom Templates
 
 Add a YAML file under `configs/templates/` to create your own template:
@@ -353,13 +413,14 @@ PresentiQ/
 |   +-- templates/                  # YAML template configs (46 built-in)
 +-- ppt_generator/
 |   +-- __init__.py                 # Main entry -- PPTGenerator class
+|   +-- persona_engine.py           # Persona & audience targeting engine
 |   +-- outline_generator.py        # Two-stage outline generation
 |   +-- document_analyzer.py        # Document structure analysis
 |   +-- html_renderer.py            # LLM -> HTML/CSS -> Playwright -> PNG
 |   +-- slide_generator_official.py # Slide generation orchestration
 |   +-- batch_generator.py          # Batch generation with style anchoring
 |   +-- prompt_templates.py         # Prompt template system
-|   +-- template_loader.py          # YAML template loader
+|   +-- template_loader.py          # YAML template loader + dynamic templates
 |   +-- cache_manager.py            # Cache management
 |   +-- error_handler.py            # Smart error handling & retries
 |   +-- claude_client.py            # Unified AI client (Claude / OpenAI / DeepSeek)
@@ -388,6 +449,7 @@ PresentiQ/
 - [x] Custom templates via YAML
 - [x] HTML/CSS slide rendering (no image-generation API needed)
 - [x] Editable text slides (team members, thank you, custom)
+- [x] Persona & audience targeting with dynamic theme generation
 - [ ] Reference image style transfer — upload an image, generate slides in that style
 - [ ] Live preview during generation
 - [ ] Export to PDF and image sequences
