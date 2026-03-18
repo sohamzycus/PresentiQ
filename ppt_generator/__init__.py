@@ -90,6 +90,7 @@ class PPTGenerator:
         template_preset: str = None,
         _extra_slides: List[Dict] = None,
         persona_context: Dict = None,
+        num_slides: int = None,
     ) -> dict:
         """
         Synchronously generate PPT
@@ -107,6 +108,8 @@ class PPTGenerator:
             _extra_slides: Optional list of editable slide specs appended
                 after the generated image slides (e.g. team members, thank you).
             persona_context: Persona/audience context from PersonaEngine (optional)
+            num_slides: User-requested slide count (3-20). When set, overrides
+                template preset and document analysis. None = use auto-detection.
 
         Returns:
             dict: Generation result with file paths and info
@@ -117,6 +120,7 @@ class PPTGenerator:
             template_preset=template_preset,
             _extra_slides=_extra_slides,
             persona_context=persona_context,
+            num_slides=num_slides,
         ))
 
     async def generate_ppt_async(
@@ -133,6 +137,7 @@ class PPTGenerator:
         template_preset: str = None,
         _extra_slides: List[Dict] = None,
         persona_context: Dict = None,
+        num_slides: int = None,
     ) -> dict:
         """
         Asynchronously generate PPT (recommended)
@@ -150,6 +155,8 @@ class PPTGenerator:
             template_preset: Template preset name
             _extra_slides: Optional editable slides appended after image slides
             persona_context: Persona/audience context from PersonaEngine (optional)
+            num_slides: User-requested slide count (3-20). When set, overrides
+                template preset and document analysis. None = use auto-detection.
 
         Returns:
             dict: Generation result with file paths and details
@@ -168,9 +175,17 @@ class PPTGenerator:
         if use_cache and self.cache_manager:
             logger.info("Checking outline cache...")
             outline_result = self.cache_manager.get_cached_outline(
-                reference_text, style_requirements, model
+                reference_text, style_requirements, model, num_slides=num_slides
             )
             if outline_result:
+                # Truncate cached outline if user requested fewer slides
+                if num_slides is not None:
+                    slides = outline_result.get("slides", [])
+                    if len(slides) > num_slides:
+                        outline_result = dict(outline_result)
+                        outline_result["slides"] = slides[:num_slides]
+                        outline_result["total_slides"] = num_slides
+                        logger.info(f"Truncated cached outline to {num_slides} slides")
                 logger.info(f"Outline cache hit, {len(outline_result.get('slides', []))} slides")
                 generation_info["cache_used"] = True
 
@@ -186,22 +201,39 @@ class PPTGenerator:
                     model=model,
                     template_preset=template_preset,
                     persona_context=persona_context,
+                    num_slides=num_slides,
                 )
                 logger.info(f"Two-stage outline generation complete, {len(outline_result.get('slides', []))} slides")
+
+                # Truncate if LLM returned more slides than requested
+                if num_slides is not None:
+                    slides = outline_result.get("slides", [])
+                    if len(slides) > num_slides:
+                        outline_result["slides"] = slides[:num_slides]
+                        outline_result["total_slides"] = num_slides
+                        logger.info(f"Truncated outline to {num_slides} slides (user-requested)")
 
                 # Cache outline
                 if use_cache and self.cache_manager:
                     self.cache_manager.cache_outline(
-                        reference_text, style_requirements, model, outline_result
+                        reference_text, style_requirements, model, outline_result,
+                        num_slides=num_slides
                     )
                     logger.info("Outline cached")
 
             except Exception as e:
                 logger.warning(f"Two-stage generation failed, falling back to single-stage: {e}")
                 outline_result = self.outline_generator.generate_outline(
-                    reference_text, style_requirements, model=model, template_preset=template_preset
+                    reference_text, style_requirements, model=model, template_preset=template_preset,
+                    num_slides=num_slides
                 )
                 generation_info["two_stage"] = False
+                # Truncate if LLM returned more slides than requested
+                if num_slides is not None:
+                    slides = outline_result.get("slides", [])
+                    if len(slides) > num_slides:
+                        outline_result["slides"] = slides[:num_slides]
+                        outline_result["total_slides"] = num_slides
 
         # ===== Phase 3: Batch image generation (with style anchoring) =====
         logger.info("Starting batch image generation (style anchoring mode)...")

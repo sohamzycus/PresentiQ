@@ -97,32 +97,42 @@ THEME_GROUPS = {
     "Business & Corporate": [
         "business_pitch", "corporate_professional", "company_intro",
         "project_proposal", "quarterly_review", "fintech_modern", "startup_bold",
+        "minimal_luxury", "dark_elegance",
     ],
     "Tech & Product": [
         "tech_launch", "product_launch", "blueprint_technical",
         "technical_report", "neon_dark", "data_dashboard_dark",
+        "glassmorphism", "cyberpunk", "flat_illustration",
     ],
     "Creative & Design": [
         "glassmorphism", "gradient_mesh", "3d_modern", "geometric_abstract",
         "flat_illustration", "pop_art", "monochrome_bold", "watercolor_art",
+        "instagram",
     ],
     "Lifestyle & Aesthetic": [
         "instagram", "magazine", "morandi", "muji_minimal",
         "minimal_luxury", "nordic_clean", "zen_japanese",
+        "pastel_dream", "vintage",
     ],
     "Fun & Themed": [
         "cyberpunk", "retro_80s", "doodle", "kawaii_cute",
-        "tropical_vibrant", "vintage",
+        "tropical_vibrant", "vintage", "pop_art", "watercolor_art", "space_cosmos",
     ],
     "Atmosphere & Mood": [
         "dark_elegance", "pastel_dream", "space_cosmos",
-        "storytelling_cinematic",
+        "storytelling_cinematic", "zen_japanese", "nature_earth",
+        "neon_dark", "retro_80s", "morandi",
     ],
     "Domain-Specific": [
         "nature_earth", "healthcare_medical", "education_chalkboard",
         "newspaper_editorial", "school_project",
+        "technical_report", "business_pitch", "training", "academic",
     ],
-    "Academic & Training": ["academic", "academic_paper", "training"],
+    "Academic & Training": [
+        "academic", "academic_paper", "training",
+        "technical_report", "education_chalkboard", "blueprint_technical",
+        "corporate_professional", "minimal_luxury", "nature_earth",
+    ],
 }
 
 
@@ -260,6 +270,7 @@ def _run_generation(job_id: str, topic: str, num_slides: int, theme: str, person
             audience_profile=final_audience_profile,
             persona_context=persona_context,
             use_cache=False,
+            num_slides=num_slides,
         )
 
         _emit(job_id, "complete", {
@@ -286,8 +297,9 @@ def index():
 
 @app.route("/api/options")
 def api_options():
-    """Return all personas, audiences, and themes for the UI dropdowns."""
+    """Return all personas, audiences, and themes for the UI dropdowns and template sidebar."""
     from ppt_generator.persona_engine import PERSONA_PROFILES, AUDIENCE_PROFILES
+    from ppt_generator.template_loader import get_template_presets
 
     personas = [
         {"key": k, "label": v["label"], "tone": v["tone"]}
@@ -297,10 +309,20 @@ def api_options():
         {"key": k, "label": v["label"], "expectations": v["expectations"]}
         for k, v in AUDIENCE_PROFILES.items()
     ]
+    presets = get_template_presets()
     themes = []
     for group_name, keys in THEME_GROUPS.items():
         for k in keys:
-            themes.append({"key": k, "label": k.replace("_", " ").title(), "group": group_name, "description": TEMPLATE_CATALOG.get(k, "")})
+            preset = presets.get(k, {})
+            style_hints = preset.get("style_hints", {})
+            colors = style_hints.get("colors", [])
+            themes.append({
+                "key": k,
+                "label": preset.get("name") or k.replace("_", " ").title(),
+                "group": group_name,
+                "description": preset.get("description") or TEMPLATE_CATALOG.get(k, ""),
+                "colors": colors[:6] if colors else ["#7c3aed", "#a78bfa", "#1e1b4b"],
+            })
 
     return jsonify({"personas": personas, "audiences": audiences, "themes": themes})
 
@@ -362,6 +384,15 @@ def api_download():
     if not filepath or not os.path.isfile(filepath):
         return jsonify({"error": "File not found"}), 404
     return send_file(filepath, as_attachment=True, download_name=os.path.basename(filepath))
+
+
+@app.route("/api/file")
+def api_file():
+    """Serve a generated file for in-browser preview (inline, no download)."""
+    filepath = request.args.get("path", "")
+    if not filepath or not os.path.isfile(filepath):
+        return jsonify({"error": "File not found"}), 404
+    return send_file(filepath, as_attachment=False, mimetype="application/vnd.openxmlformats-officedocument.presentationml.presentation")
 
 
 # ─── Entry ─────────────────────────────────────────────────────────────────────

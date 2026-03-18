@@ -7,7 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root {
+/* Dark theme (default) */
+:root,
+[data-theme="dark"] {
   --bg: #0a0a0f;
   --surface: rgba(255,255,255,0.04);
   --surface-hover: rgba(255,255,255,0.07);
@@ -25,16 +27,58 @@
   --radius: 12px;
   --radius-lg: 16px;
   --radius-sm: 8px;
+  --ambient-1: rgba(124,58,237,0.08);
+  --ambient-2: rgba(16,185,129,0.05);
+  --sidebar-bg: rgba(0,0,0,0.2);
+  --card-bg: #16161e;
+  --preview-bg: #1a1a2e;
+  --select-option-bg: #1a1a2e;
+  --scrollbar-thumb: rgba(255,255,255,0.1);
+  --preview-panel-bg: rgba(0,0,0,0.25);
+  --fullscreen-nav-bg: rgba(0,0,0,0.7);
+  --fullscreen-close-bg: rgba(0,0,0,0.5);
+  --fullscreen-close-hover: rgba(255,255,255,0.1);
+}
+
+/* Light theme */
+[data-theme="light"] {
+  --bg: #f8fafc;
+  --surface: rgba(0,0,0,0.03);
+  --surface-hover: rgba(0,0,0,0.06);
+  --border: rgba(0,0,0,0.1);
+  --border-focus: rgba(124,58,237,0.5);
+  --text: #1e293b;
+  --text-muted: #64748b;
+  --text-dim: #94a3b8;
+  --accent: #7c3aed;
+  --accent-light: #6d28d9;
+  --accent-glow: rgba(124,58,237,0.12);
+  --success: #059669;
+  --error: #dc2626;
+  --warning: #d97706;
+  --ambient-1: rgba(124,58,237,0.06);
+  --ambient-2: rgba(16,185,129,0.04);
+  --sidebar-bg: rgba(0,0,0,0.04);
+  --card-bg: #ffffff;
+  --preview-bg: #f1f5f9;
+  --select-option-bg: #ffffff;
+  --scrollbar-thumb: rgba(0,0,0,0.15);
+  --preview-panel-bg: rgba(0,0,0,0.06);
+  --fullscreen-nav-bg: rgba(255,255,255,0.95);
+  --fullscreen-close-bg: rgba(255,255,255,0.9);
+  --fullscreen-close-hover: rgba(0,0,0,0.08);
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
 
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg);
   color: var(--text);
-  min-height: 100vh;
-  overflow-x: hidden;
 }
 
 /* Ambient background */
@@ -43,7 +87,7 @@ body::before {
   position: fixed;
   top: -40%; left: -20%;
   width: 80vw; height: 80vw;
-  background: radial-gradient(circle, rgba(124,58,237,0.08) 0%, transparent 60%);
+  background: radial-gradient(circle, var(--ambient-1) 0%, transparent 60%);
   pointer-events: none;
   z-index: 0;
 }
@@ -52,12 +96,341 @@ body::after {
   position: fixed;
   bottom: -30%; right: -10%;
   width: 60vw; height: 60vw;
-  background: radial-gradient(circle, rgba(16,185,129,0.05) 0%, transparent 60%);
+  background: radial-gradient(circle, var(--ambient-2) 0%, transparent 60%);
   pointer-events: none;
   z-index: 0;
 }
 
-.app { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding: 40px 20px 80px; }
+.app {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  max-width: 100vw;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+/* Sidebar - independent scroll, no clipping */
+.sidebar {
+  width: 490px;
+  flex-shrink: 0;
+  height: 100%;
+  min-height: 0;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+  padding: 20px 16px 32px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.sidebar-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--accent-light);
+  margin: 20px 0 12px;
+  padding: 0 4px;
+}
+.sidebar-title:first-child { margin-top: 0; }
+#templateList {
+  min-width: 0;
+}
+.template-category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+  min-width: 0;
+}
+.template-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 10px;
+  min-width: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+}
+.template-card:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-focus);
+  transform: translateY(-1px);
+}
+.template-card.selected {
+  border-color: var(--accent);
+  background: var(--accent-glow);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+.template-preview {
+  width: 100%;
+  aspect-ratio: 16/9;
+  flex-shrink: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.template-preview-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+}
+.template-info {
+  flex: 1;
+  min-width: 0;
+}
+.template-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.template-desc {
+  font-size: 10px;
+  color: var(--text-dim);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Main content */
+.main-content {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  padding: 40px 32px 80px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-width: 720px;
+}
+
+/* Fullscreen preview overlay */
+.preview-fullscreen {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--bg);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.preview-fullscreen.visible {
+  display: flex;
+}
+.preview-fullscreen-canvas-wrapper {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  min-height: 0;
+}
+.preview-fullscreen-canvas-wrapper canvas {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.preview-fullscreen-nav {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 24px;
+  background: var(--fullscreen-nav-bg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+}
+.preview-fullscreen-close {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: var(--fullscreen-close-bg);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, border-color 0.2s;
+}
+.preview-fullscreen-close:hover {
+  background: var(--fullscreen-close-hover);
+  border-color: var(--accent);
+}
+.preview-fullscreen-btn {
+  padding: 10px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.preview-fullscreen-btn:hover:not(:disabled) {
+  background: var(--surface-hover);
+  border-color: var(--border-focus);
+}
+.preview-fullscreen-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.preview-fullscreen-counter {
+  font-size: 14px;
+  color: var(--text-muted);
+  min-width: 60px;
+  text-align: center;
+}
+.preview-fullscreen .hint {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+/* Preview panel (right side) */
+.preview-panel {
+  width: 0;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: var(--preview-panel-bg);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  transition: width 0.35s ease;
+}
+.preview-panel.visible {
+  width: min(640px, 50vw);
+  min-width: 480px;
+}
+.preview-panel-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.preview-fullscreen-btn-header {
+  padding: 6px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.preview-fullscreen-btn-header:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-focus);
+}
+.preview-panel-body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.preview-canvas-wrapper {
+  width: 100%;
+  max-width: 100%;
+  flex: 1;
+  min-height: 300px;
+  background: var(--preview-bg);
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 16/9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.preview-canvas-wrapper canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.preview-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+.preview-nav-btn {
+  padding: 8px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.preview-nav-btn:hover:not(:disabled) {
+  background: var(--surface-hover);
+  border-color: var(--border-focus);
+}
+.preview-nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.preview-slide-counter {
+  font-size: 13px;
+  color: var(--text-muted);
+  min-width: 60px;
+  text-align: center;
+}
+.preview-loading {
+  color: var(--text-muted);
+  font-size: 14px;
+  padding: 40px 20px;
+  text-align: center;
+}
+.preview-loading .spinner {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 12px;
+}
 
 /* Header */
 .header { text-align: center; margin-bottom: 48px; }
@@ -147,7 +520,7 @@ select {
   padding-right: 36px;
   cursor: pointer;
 }
-select option { background: #1a1a2e; color: var(--text); }
+select option { background: var(--select-option-bg); color: var(--text); }
 
 textarea { resize: vertical; min-height: 80px; }
 
@@ -215,7 +588,7 @@ textarea { resize: vertical; min-height: 80px; }
   left: 0; right: 0;
   max-height: 320px;
   overflow-y: auto;
-  background: #16161e;
+  background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   z-index: 100;
@@ -404,14 +777,78 @@ textarea { resize: vertical; min-height: 80px; }
 .footer a { color: var(--accent-light); text-decoration: none; }
 .footer a:hover { text-decoration: underline; }
 
+/* Theme toggle */
+.theme-toggle-wrap {
+  position: fixed;
+  top: 16px;
+  right: 20px;
+  z-index: 1000;
+}
+.theme-toggle {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--text);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, border-color 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.theme-toggle:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-focus);
+}
+.theme-icon-light { display: none; }
+.theme-icon-dark { display: inline; }
+[data-theme="light"] .theme-icon-light { display: inline; }
+[data-theme="light"] .theme-icon-dark { display: none; }
+
 /* Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 3px; }
 
 /* Responsive */
+@media (max-width: 1200px) {
+  .preview-panel.visible {
+    width: min(520px, 45vw);
+    min-width: 400px;
+  }
+}
+@media (max-width: 900px) {
+  html, body { overflow: auto; }
+  .app { flex-direction: column; flex-wrap: wrap; height: auto; min-height: 100vh; overflow: visible; }
+  .sidebar {
+    width: 100%;
+    flex: none;
+    height: auto;
+    max-height: 360px;
+    min-height: 0;
+    overflow-y: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .template-category-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .preview-panel.visible {
+    width: 100%;
+    min-width: 100%;
+    max-height: 50vh;
+    border-left: none;
+    border-top: 1px solid var(--border);
+  }
+}
 @media (max-width: 600px) {
-  .app { padding: 24px 16px 60px; }
+  .theme-toggle-wrap { top: 12px; right: 12px; }
+  .theme-toggle { width: 40px; height: 40px; font-size: 18px; }
+  .main-content { padding: 24px 16px 60px; }
   .header h1 { font-size: 28px; }
   .card { padding: 20px; }
   .row, .row-3 { grid-template-columns: 1fr; }
@@ -421,7 +858,22 @@ textarea { resize: vertical; min-height: 80px; }
 </head>
 <body>
 
+<div class="theme-toggle-wrap">
+  <button type="button" class="theme-toggle" id="themeToggle" title="Toggle light/dark theme" aria-label="Toggle theme">
+    <span class="theme-icon-dark" id="themeIconDark">☀</span>
+    <span class="theme-icon-light" id="themeIconLight">☽</span>
+  </button>
+</div>
+
 <div class="app">
+  <!-- Sidebar: Template designs -->
+  <aside class="sidebar">
+    <div class="sidebar-title">Choose a Design</div>
+    <div id="templateList"></div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main-content">
   <!-- Header -->
   <header class="header">
     <div class="logo">PresentiQ</div>
@@ -464,19 +916,9 @@ textarea { resize: vertical; min-height: 80px; }
         </div>
       </div>
 
-      <!-- Theme -->
-      <div class="form-group">
-        <label>Theme <span class="hint">— Auto-selected based on persona & topic, or pick one</span></label>
-        <div class="theme-selector" id="themeSelector">
-          <div class="theme-current" id="themeCurrent" tabindex="0">
-            <span id="themeLabel">Auto-detect</span>
-            <span class="arrow">&#9662;</span>
-          </div>
-          <div class="theme-dropdown" id="themeDropdown">
-            <div class="theme-option selected" data-value="">Auto-detect</div>
-          </div>
-        </div>
-        <input type="hidden" id="theme" name="theme" value="">
+      <input type="hidden" id="theme" name="theme" value="">
+      <div class="form-group" id="selectedTemplateHint" style="margin-top: 8px;">
+        <span class="hint">Using design: <strong id="selectedTemplateName">—</strong></span>
       </div>
 
       <button type="submit" class="btn-generate" id="btnGenerate">
@@ -517,25 +959,74 @@ textarea { resize: vertical; min-height: 80px; }
   <!-- Result -->
   <div class="result-panel" id="resultPanel"></div>
 
-  <div class="footer">
+  <footer class="footer">
     Built with <a href="https://github.com/sohamzycus/PresentiQ" target="_blank">PresentiQ</a> — open source AI presentation generator
+  </footer>
+  </main>
+
+  <!-- Preview panel (right side) -->
+  <aside class="preview-panel" id="previewPanel">
+    <div class="preview-panel-header">
+      <span>Preview</span>
+      <button type="button" class="preview-fullscreen-btn-header" id="fullscreenBtn" title="Full screen">⛶ Full screen</button>
+    </div>
+    <div class="preview-panel-body">
+      <div class="preview-canvas-wrapper">
+        <canvas id="previewCanvas"></canvas>
+      </div>
+      <div class="preview-nav">
+        <button type="button" class="preview-nav-btn" id="prevSlideBtn" disabled>← Prev</button>
+        <span class="preview-slide-counter" id="slideCounter">— / —</span>
+        <button type="button" class="preview-nav-btn" id="nextSlideBtn" disabled>Next →</button>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- Fullscreen preview overlay -->
+<div class="preview-fullscreen" id="previewFullscreen">
+  <button type="button" class="preview-fullscreen-close" id="fullscreenCloseBtn" title="Exit full screen">✕</button>
+  <div class="preview-fullscreen-canvas-wrapper">
+    <canvas id="previewFullscreenCanvas"></canvas>
+  </div>
+  <span class="hint">Press Esc to exit</span>
+  <div class="preview-fullscreen-nav">
+    <button type="button" class="preview-fullscreen-btn" id="fullscreenPrevBtn" disabled>← Prev</button>
+    <span class="preview-fullscreen-counter" id="fullscreenCounter">— / —</span>
+    <button type="button" class="preview-fullscreen-btn" id="fullscreenNextBtn" disabled>Next →</button>
   </div>
 </div>
+
+<!-- PptxViewJS for in-browser PPTX preview -->
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pptxviewjs/dist/PptxViewJS.min.js"></script>
 
 <script>
 (function() {
   const $ = (s) => document.querySelector(s);
   const form = $('#genForm');
+
+  // Theme: light / dark, persist in localStorage
+  function getStoredTheme() {
+    return localStorage.getItem('presentiq-theme') || (window.matchMedia?.('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  }
+  function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('presentiq-theme', theme);
+  }
+  setTheme(getStoredTheme());
+  $('#themeToggle')?.addEventListener('click', () => {
+    const cur = document.documentElement.getAttribute('data-theme') || 'dark';
+    setTheme(cur === 'dark' ? 'light' : 'dark');
+  });
   const btn = $('#btnGenerate');
   const slider = $('#slides');
   const slidesVal = $('#slidesValue');
   const progressPanel = $('#progressPanel');
   const resultPanel = $('#resultPanel');
-  const themeSelector = $('#themeSelector');
-  const themeCurrent = $('#themeCurrent');
-  const themeDropdown = $('#themeDropdown');
   const themeInput = $('#theme');
-  const themeLabel = $('#themeLabel');
+  const templateList = $('#templateList');
 
   let selectedTheme = '';
 
@@ -560,41 +1051,53 @@ textarea { resize: vertical; min-height: 80px; }
       audienceSel.appendChild(opt);
     });
 
-    // Build theme dropdown
-    let currentGroup = '';
+    // Build template sidebar: grid format (3x3 per category), 9+ designs per category
+    const byGroup = {};
     data.themes.forEach(t => {
-      if (t.group !== currentGroup) {
-        currentGroup = t.group;
-        const groupEl = document.createElement('div');
-        groupEl.className = 'theme-group-label';
-        groupEl.textContent = currentGroup;
-        themeDropdown.appendChild(groupEl);
-      }
-      const optEl = document.createElement('div');
-      optEl.className = 'theme-option';
-      optEl.dataset.value = t.key;
-      optEl.innerHTML = `<span>${t.label}</span><span class="desc">${t.description}</span>`;
-      optEl.addEventListener('click', () => selectTheme(t.key, t.label));
-      themeDropdown.appendChild(optEl);
+      if (!byGroup[t.group]) byGroup[t.group] = [];
+      byGroup[t.group].push(t);
     });
+    let firstTheme = null;
+    Object.entries(byGroup).forEach(([groupName, themes]) => {
+      const groupEl = document.createElement('div');
+      groupEl.className = 'sidebar-title';
+      groupEl.textContent = groupName;
+      templateList.appendChild(groupEl);
+      const gridEl = document.createElement('div');
+      gridEl.className = 'template-category-grid';
+      themes.forEach(t => {
+        const colors = t.colors || ['#7c3aed', '#a78bfa'];
+        const gradient = colors.length >= 2
+          ? `linear-gradient(135deg, ${colors[0]} 0%, ${colors[1]} 50%, ${colors[2] || colors[1]} 100%)`
+          : `linear-gradient(135deg, ${colors[0]} 0%, ${colors[0]} 100%)`;
+        const card = document.createElement('div');
+        card.className = 'template-card';
+        card.dataset.value = t.key;
+        card.innerHTML = `
+          <div class="template-preview">
+            <div class="template-preview-inner" style="background: ${gradient}"></div>
+          </div>
+          <div class="template-info">
+            <div class="template-name">${t.label}</div>
+            <div class="template-desc">${t.description || ''}</div>
+          </div>
+        `;
+        card.addEventListener('click', () => selectTemplate(t.key, t.label));
+        gridEl.appendChild(card);
+        if (!firstTheme) firstTheme = t;
+      });
+      templateList.appendChild(gridEl);
+    });
+    if (firstTheme) selectTemplate(firstTheme.key, firstTheme.label);
   });
 
-  // Theme dropdown toggle
-  themeCurrent.addEventListener('click', (e) => {
-    e.stopPropagation();
-    themeDropdown.classList.toggle('open');
-  });
-  document.addEventListener('click', () => themeDropdown.classList.remove('open'));
-  themeDropdown.addEventListener('click', (e) => e.stopPropagation());
-
-  function selectTheme(key, label) {
+  function selectTemplate(key, label) {
     selectedTheme = key;
     themeInput.value = key;
-    themeLabel.textContent = key ? label : 'Auto-detect';
-    themeDropdown.querySelectorAll('.theme-option').forEach(el => {
+    $('#selectedTemplateName').textContent = label || key.replace(/_/g, ' ');
+    templateList.querySelectorAll('.template-card').forEach(el => {
       el.classList.toggle('selected', el.dataset.value === key);
     });
-    themeDropdown.classList.remove('open');
   }
 
   // Icon helpers
@@ -622,6 +1125,7 @@ textarea { resize: vertical; min-height: 80px; }
     progressPanel.classList.add('visible');
     resultPanel.classList.remove('visible');
     resultPanel.innerHTML = '';
+    $('#previewPanel').classList.remove('visible');
 
     // Reset progress
     ['iconPersona','iconContent','iconRendering'].forEach(id => {
@@ -708,6 +1212,9 @@ textarea { resize: vertical; min-height: 80px; }
     });
   }
 
+  let pptxViewer = null;
+  let previewState = { currentIndex: 0, totalSlides: 0, renderCurrentSlide: null, updateNav: null, updateFullscreenNav: null };
+
   function showSuccess(data) {
     resultPanel.innerHTML = `
       <div class="result-success">
@@ -732,6 +1239,200 @@ textarea { resize: vertical; min-height: 80px; }
       </div>
     `;
     resultPanel.classList.add('visible');
+
+    // Show preview panel on the right and load the presentation
+    loadPreview(data.pptx_file);
+  }
+
+  async function loadPreview(pptxPath) {
+    const panel = $('#previewPanel');
+    const canvas = $('#previewCanvas');
+    const prevBtn = $('#prevSlideBtn');
+    const nextBtn = $('#nextSlideBtn');
+    const counter = $('#slideCounter');
+
+    panel.classList.add('visible');
+    prevBtn.disabled = true;
+    nextBtn.disabled = true;
+    counter.textContent = 'Loading...';
+
+    let currentIndex = 0;
+    let totalSlides = 0;
+
+    function updateNav() {
+      counter.textContent = totalSlides ? `${currentIndex + 1} / ${totalSlides}` : '— / —';
+      prevBtn.disabled = currentIndex <= 0;
+      nextBtn.disabled = totalSlides <= 1 || currentIndex >= totalSlides - 1;
+    }
+
+    function sizeCanvas() {
+      const wrapper = canvas.closest('.preview-canvas-wrapper');
+      const rect = wrapper.getBoundingClientRect();
+      canvas.width = Math.floor(rect.width) || 640;
+      canvas.height = Math.floor(rect.height) || 360;
+    }
+
+    try {
+      if (pptxViewer) {
+        pptxViewer.destroy?.();
+        pptxViewer = null;
+      }
+
+      await new Promise(r => setTimeout(r, 450));
+      sizeCanvas();
+
+      const fileUrl = '/api/file?path=' + encodeURIComponent(pptxPath);
+      const PptxViewJS = window.PptxViewJS;
+      if (!PptxViewJS || !PptxViewJS.PPTXViewer) {
+        counter.textContent = 'Preview unavailable';
+        return;
+      }
+
+      pptxViewer = new PptxViewJS.PPTXViewer({ canvas });
+
+      pptxViewer.on('loadComplete', ({ slideCount }) => {
+        totalSlides = slideCount;
+        currentIndex = 0;
+        updateNav();
+      });
+
+      pptxViewer.on('slideChanged', (index) => {
+        currentIndex = index;
+        updateNav();
+      });
+
+      await pptxViewer.loadFromUrl(fileUrl);
+      totalSlides = pptxViewer.getSlideCount?.() ?? 0;
+      currentIndex = 0;
+      previewState.currentIndex = currentIndex;
+      previewState.totalSlides = totalSlides;
+      updateNav();
+
+      async function renderCurrentSlide(targetCanvas) {
+        const c = targetCanvas || canvas;
+        if (targetCanvas) {
+          const wrapper = targetCanvas.closest('.preview-canvas-wrapper, .preview-fullscreen-canvas-wrapper');
+          const rect = wrapper?.getBoundingClientRect();
+          if (rect) {
+            c.width = Math.floor(rect.width) || 640;
+            c.height = Math.floor(rect.height) || 360;
+          }
+        } else {
+          sizeCanvas();
+        }
+        await pptxViewer.renderSlide(currentIndex, c);
+      }
+
+      await renderCurrentSlide();
+
+      prevBtn.onclick = async () => {
+        if (currentIndex <= 0) return;
+        currentIndex = Math.max(0, currentIndex - 1);
+        previewState.currentIndex = currentIndex;
+        updateNav();
+        await renderCurrentSlide();
+      };
+      nextBtn.onclick = async () => {
+        if (currentIndex >= totalSlides - 1) return;
+        currentIndex = Math.min(totalSlides - 1, currentIndex + 1);
+        previewState.currentIndex = currentIndex;
+        updateNav();
+        await renderCurrentSlide();
+      };
+
+      // Fullscreen mode
+      const fullscreenOverlay = $('#previewFullscreen');
+      const fullscreenCanvas = $('#previewFullscreenCanvas');
+      const fullscreenBtn = $('#fullscreenBtn');
+      const fullscreenCloseBtn = $('#fullscreenCloseBtn');
+      const fullscreenPrevBtn = $('#fullscreenPrevBtn');
+      const fullscreenNextBtn = $('#fullscreenNextBtn');
+      const fullscreenCounter = $('#fullscreenCounter');
+
+      function updateFullscreenNav() {
+        fullscreenCounter.textContent = totalSlides ? `${currentIndex + 1} / ${totalSlides}` : '— / —';
+        fullscreenPrevBtn.disabled = currentIndex <= 0;
+        fullscreenNextBtn.disabled = totalSlides <= 1 || currentIndex >= totalSlides - 1;
+      }
+
+      fullscreenBtn.onclick = async () => {
+        if (!pptxViewer || totalSlides === 0) return;
+        fullscreenOverlay.classList.add('visible');
+        updateFullscreenNav();
+        await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+        await renderCurrentSlide(fullscreenCanvas);
+      };
+
+      fullscreenCloseBtn.onclick = async () => {
+        fullscreenOverlay.classList.remove('visible');
+        updateNav();
+        await renderCurrentSlide();
+      };
+
+      fullscreenPrevBtn.onclick = async () => {
+        if (currentIndex <= 0) return;
+        currentIndex = Math.max(0, currentIndex - 1);
+        previewState.currentIndex = currentIndex;
+        updateNav();
+        updateFullscreenNav();
+        await renderCurrentSlide(fullscreenCanvas);
+        await renderCurrentSlide();
+      };
+
+      fullscreenNextBtn.onclick = async () => {
+        if (currentIndex >= totalSlides - 1) return;
+        currentIndex = Math.min(totalSlides - 1, currentIndex + 1);
+        previewState.currentIndex = currentIndex;
+        updateNav();
+        updateFullscreenNav();
+        await renderCurrentSlide(fullscreenCanvas);
+        await renderCurrentSlide();
+      };
+
+      previewState.currentIndex = currentIndex;
+      previewState.totalSlides = totalSlides;
+      previewState.renderCurrentSlide = () => renderCurrentSlide();
+      previewState.renderFullscreenSlide = () => renderCurrentSlide(fullscreenCanvas);
+      previewState.updateNav = updateNav;
+      previewState.updateFullscreenNav = updateFullscreenNav;
+      previewState.setCurrentIndex = (i) => { currentIndex = i; previewState.currentIndex = i; };
+
+      if (!document._fullscreenKeyHandler) {
+        document._fullscreenKeyHandler = (e) => {
+          const overlay = $('#previewFullscreen');
+          if (!overlay?.classList.contains('visible')) return;
+          const state = previewState;
+          const cur = state.currentIndex ?? 0;
+          const tot = state.totalSlides ?? 0;
+          if (!pptxViewer || tot === 0 || !state.renderCurrentSlide) return;
+          if (e.key === 'Escape') {
+            overlay.classList.remove('visible');
+            state.renderCurrentSlide();
+            if (state.updateNav) state.updateNav();
+          } else if (e.key === 'ArrowLeft' && cur > 0) {
+            e.preventDefault();
+            const newIdx = cur - 1;
+            state.setCurrentIndex?.(newIdx);
+            state.renderFullscreenSlide?.();
+            state.renderCurrentSlide?.();
+            if (state.updateNav) state.updateNav();
+            if (state.updateFullscreenNav) state.updateFullscreenNav();
+          } else if (e.key === 'ArrowRight' && cur < tot - 1) {
+            e.preventDefault();
+            const newIdx = cur + 1;
+            state.setCurrentIndex?.(newIdx);
+            state.renderFullscreenSlide?.();
+            state.renderCurrentSlide?.();
+            if (state.updateNav) state.updateNav();
+            if (state.updateFullscreenNav) state.updateFullscreenNav();
+          }
+        };
+        document.addEventListener('keydown', document._fullscreenKeyHandler);
+      }
+    } catch (err) {
+      console.error('Preview load error:', err);
+      counter.textContent = 'Preview failed';
+    }
   }
 
   function showError(msg) {

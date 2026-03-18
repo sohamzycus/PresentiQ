@@ -35,7 +35,8 @@ class OutlineGenerator:
         reference_text: str,
         style_requirements: str,
         model: str = "gpt-4",
-        template_preset: str = None
+        template_preset: str = None,
+        num_slides: int = None,
     ) -> Dict:
         """
         Generate PPT outline
@@ -45,12 +46,13 @@ class OutlineGenerator:
             style_requirements: Style requirements
             model: Model to use
             template_preset: Template preset name (optional)
+            num_slides: User-requested slide count (3-20). When set, overrides template. None = auto.
 
         Returns:
             Dict: Structured PPT outline
         """
-        system_prompt = self._get_system_prompt(template_preset)
-        user_prompt = self._build_user_prompt(reference_text, style_requirements, template_preset)
+        system_prompt = self._get_system_prompt(template_preset, num_slides)
+        user_prompt = self._build_user_prompt(reference_text, style_requirements, template_preset, num_slides)
 
         result = self.llm_client.generate_structured_response(
             system_prompt=system_prompt,
@@ -78,6 +80,7 @@ class OutlineGenerator:
         model: str = "gpt-4",
         template_preset: str = None,
         persona_context: Dict = None,
+        num_slides: int = None,
     ) -> Dict:
         """
         Two-stage outline generation (recommended) - Inspired by NotebookLM
@@ -94,12 +97,16 @@ class OutlineGenerator:
             model: Model to use
             template_preset: Template preset name (optional)
             persona_context: Persona/audience context from PersonaEngine (optional)
+            num_slides: User-requested slide count (3-20). When set, overrides
+                template preset and document analysis. None = use auto-detection.
 
         Returns:
             Dict: Structured PPT outline
         """
         if template_preset:
             logger.info(f"Using template preset: {template_preset}")
+        if num_slides is not None:
+            logger.info(f"User-requested slide count: {num_slides}")
         if persona_context:
             logger.info(f"Using persona context: {persona_context.get('presenter_persona', 'N/A')} -> {persona_context.get('audience_label', 'N/A')}")
         logger.info("Starting two-stage outline generation...")
@@ -109,14 +116,15 @@ class OutlineGenerator:
         doc_analysis = self.document_analyzer.analyze_document(
             reference_text,
             context_hints=context_hints,
-            model=model
+            model=model,
+            num_slides=num_slides,
         )
         logger.info(f"Document analysis complete: type={doc_analysis.get('document_type')}, "
                    f"theme={doc_analysis.get('main_theme')}")
 
         # ===== Stage 2: Generate outline from analysis =====
         logger.info("Stage 2: Generating outline from analysis...")
-        system_prompt = self._get_two_stage_system_prompt(template_preset, persona_context)
+        system_prompt = self._get_two_stage_system_prompt(template_preset, persona_context, num_slides)
         user_prompt = self._build_two_stage_user_prompt(
             doc_analysis,
             style_requirements,
@@ -124,6 +132,7 @@ class OutlineGenerator:
             brand_guidelines,
             template_preset,
             persona_context,
+            num_slides,
         )
 
         result = self.llm_client.generate_structured_response(
@@ -146,7 +155,7 @@ class OutlineGenerator:
         logger.info(f"Two-stage outline generation complete: {len(result.get('slides', []))} slides")
         return result
 
-    def _get_two_stage_system_prompt(self, template_preset: str = None, persona_context: Dict = None) -> str:
+    def _get_two_stage_system_prompt(self, template_preset: str = None, persona_context: Dict = None, num_slides: int = None) -> str:
         """Get two-stage generation system prompt"""
         base_prompt = """You are a PPT design architect, designing a PPT outline based on pre-analyzed document structure.
 
@@ -208,12 +217,16 @@ Ensure each slide contains:
         template_presets = get_template_presets()
         if template_preset and template_preset in template_presets:
             preset = template_presets[template_preset]
+            # User-requested num_slides overrides preset when fewer
+            target_slides = num_slides if num_slides is not None else preset.get('suggested_slides', 5)
+            if num_slides is not None and preset.get('suggested_slides', 5) > num_slides:
+                target_slides = num_slides
             preset_constraint = f"""
 
 [Template Preset Constraint - {preset.get('name', template_preset)}]
 You MUST strictly follow this template sequence:
 Slide type sequence: {preset.get('sequence', [])}
-Total slides: {preset.get('suggested_slides', 5)}
+Total slides: {target_slides}
 Narrative structure: {preset.get('narrative', 'problem_solution_result')}
 
 Important:
@@ -232,15 +245,18 @@ Important:
         brand_guidelines: Dict = None,
         template_preset: str = None,
         persona_context: Dict = None,
+        num_slides: int = None,
     ) -> str:
         """Build two-stage generation user prompt"""
+        # User-requested num_slides takes priority over document analysis
+        target_slides = num_slides if num_slides is not None else doc_analysis.get('suggested_total_slides', 8)
         prompt_parts = [
             "[Document Analysis Result]",
             f"Document type: {doc_analysis.get('document_type', 'General')}",
             f"Core theme: {doc_analysis.get('main_theme', '')}",
             f"Complexity: {doc_analysis.get('complexity_level', 'medium')}",
             f"Recommended narrative: {doc_analysis.get('suggested_narrative', 'problem_solution_result')}",
-            f"Suggested total slides: {doc_analysis.get('suggested_total_slides', 8)}",
+            f"Total slides: {target_slides}" + (" (user-requested, MUST use exactly this count)" if num_slides is not None else ""),
             "",
             "[Key Sections]"
         ]
@@ -321,11 +337,15 @@ Important:
         template_presets = get_template_presets()
         if template_preset and template_preset in template_presets:
             preset = template_presets[template_preset]
+            preset_slides = preset.get('suggested_slides', 5)
+            total_slides = num_slides if num_slides is not None else preset_slides
+            if num_slides is not None and preset_slides > num_slides:
+                total_slides = num_slides
             prompt_parts.extend([
                 "",
                 f"[Template Preset] Use '{preset.get('name', template_preset)}' preset",
                 f"Slide sequence: {' -> '.join(preset.get('sequence', []))}",
-                f"Total slides: {preset.get('suggested_slides', 5)}",
+                f"Total slides: {total_slides}" + (" (user-requested)" if num_slides is not None else ""),
                 "Strictly follow this template sequence; each slide's slide_type must match the sequence type."
             ])
 
@@ -337,7 +357,7 @@ Important:
 
         return "\n".join(prompt_parts)
 
-    def _get_system_prompt(self, template_preset: str = None) -> str:
+    def _get_system_prompt(self, template_preset: str = None, num_slides: int = None) -> str:
         """Get system prompt"""
         base_prompt = """You are a senior PPT designer with 10 years of presentation design experience.
 
@@ -368,12 +388,16 @@ Each slide must include: slide_number, slide_type, title, content_summary, key_p
         template_presets = get_template_presets()
         if template_preset and template_preset in template_presets:
             preset = template_presets[template_preset]
+            preset_slides = preset.get('suggested_slides', 5)
+            target_slides = num_slides if num_slides is not None else preset_slides
+            if num_slides is not None and preset_slides > num_slides:
+                target_slides = num_slides
             preset_constraint = f"""
 
 [Template Preset Constraint - {preset.get('name', template_preset)}]
 You MUST strictly follow this template sequence:
 Slide type sequence: {preset.get('sequence', [])}
-Total slides: {preset.get('suggested_slides', 5)}
+Total slides: {target_slides}
 
 Important:
 - Each slide's slide_type must exactly match the sequence type
@@ -383,7 +407,7 @@ Important:
 
         return base_prompt
 
-    def _build_user_prompt(self, reference_text: str, style_requirements: str, template_preset: str = None) -> str:
+    def _build_user_prompt(self, reference_text: str, style_requirements: str, template_preset: str = None, num_slides: int = None) -> str:
         """Build user prompt"""
         base_prompt = f"""[Reference Content]
 {reference_text}
@@ -402,19 +426,26 @@ Important:
         template_presets = get_template_presets()
         if template_preset and template_preset in template_presets:
             preset = template_presets[template_preset]
+            preset_slides = preset.get('suggested_slides', 5)
+            total_slides = num_slides if num_slides is not None else preset_slides
+            if num_slides is not None and preset_slides > num_slides:
+                total_slides = num_slides
             base_prompt += f"""
 [Template Preset] Use '{preset.get('name', template_preset)}' preset
 Slide sequence: {' -> '.join(preset.get('sequence', []))}
-Total slides: {preset.get('suggested_slides', 5)}
+Total slides: {total_slides}
 Strictly follow this template sequence; each slide's slide_type must match the sequence type.
 """
 
+        total_in_example = num_slides if num_slides is not None else 8
+        num_slides_note = ("\nIMPORTANT: Generate exactly {} slides as requested.".format(num_slides)
+                          if num_slides is not None else "")
         base_prompt += """
-Generate PPT outline, return JSON format:
+Generate PPT outline, return JSON format:""" + num_slides_note + """
 {
     "title": "Presentation Title",
     "subtitle": "Subtitle",
-    "total_slides": 8,
+    "total_slides": """ + str(total_in_example) + """,
     "style_theme": "Style theme",
     "slides": [
         {

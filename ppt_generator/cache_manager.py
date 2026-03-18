@@ -81,7 +81,8 @@ class CacheManager:
         self,
         reference_text: str,
         style_requirements: str,
-        model: str
+        model: str,
+        num_slides: int = None
     ) -> Optional[Dict]:
         """
         Get cached outline
@@ -90,11 +91,12 @@ class CacheManager:
             reference_text: Reference text
             style_requirements: Style requirements
             model: Model used
+            num_slides: User-requested slide count (included in cache key when set)
 
         Returns:
             Optional[Dict]: Cached outline, or None if not found or expired
         """
-        cache_key = self._compute_hash(reference_text, style_requirements, model)
+        cache_key = self._compute_hash(reference_text, style_requirements, model, num_slides)
         cache_file = self.outline_cache_dir / f"{cache_key}.json"
 
         if not cache_file.exists():
@@ -124,7 +126,8 @@ class CacheManager:
         reference_text: str,
         style_requirements: str,
         model: str,
-        outline: Dict
+        outline: Dict,
+        num_slides: int = None
     ):
         """
         Cache outline
@@ -134,8 +137,9 @@ class CacheManager:
             style_requirements: Style requirements
             model: Model used
             outline: Generated outline
+            num_slides: User-requested slide count (included in cache key when set)
         """
-        cache_key = self._compute_hash(reference_text, style_requirements, model)
+        cache_key = self._compute_hash(reference_text, style_requirements, model, num_slides)
         cache_file = self.outline_cache_dir / f"{cache_key}.json"
 
         cache_data = {
