@@ -34,7 +34,8 @@ class DocumentAnalyzer:
         self,
         reference_text: str,
         context_hints: Dict = None,
-        model: str = "gpt-4"
+        model: str = "gpt-4",
+        num_slides: int = None,
     ) -> Dict:
         """
         Deep analyze document and extract structured information
@@ -43,6 +44,7 @@ class DocumentAnalyzer:
             reference_text: Reference document text
             context_hints: Additional context hints (optional)
             model: Model to use
+            num_slides: User-requested slide count. When set, caps suggested_total_slides.
 
         Returns:
             Dict: Document analysis result
@@ -69,7 +71,7 @@ class DocumentAnalyzer:
             )
 
             # Validate and enhance result
-            result = self._validate_and_enhance(result, reference_text)
+            result = self._validate_and_enhance(result, reference_text, num_slides)
 
             logger.info(f"Document analysis complete: type={result.get('document_type')}, "
                        f"theme={result.get('main_theme')}, "
@@ -189,7 +191,7 @@ Return pure JSON format with the following structure:
 
         return "\n".join(prompt_parts)
 
-    def _validate_and_enhance(self, result: Dict, reference_text: str) -> Dict:
+    def _validate_and_enhance(self, result: Dict, reference_text: str, num_slides: int = None) -> Dict:
         """Validate and enhance analysis result"""
         # Ensure required fields exist
         defaults = {
@@ -218,7 +220,11 @@ Return pure JSON format with the following structure:
             section.get("suggested_slides", 1)
             for section in result["key_sections"]
         )
-        result["suggested_total_slides"] = min(max(total_slides + 2, 5), 15)  # Add title and summary slides
+        suggested = min(max(total_slides + 2, 5), 15)  # Add title and summary slides
+        # User-requested num_slides caps the suggestion when fewer
+        if num_slides is not None and suggested > num_slides:
+            suggested = num_slides
+        result["suggested_total_slides"] = suggested
 
         return result
 

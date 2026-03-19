@@ -447,6 +447,7 @@ def run_generation(topic: str, num_slides: int, theme: str = None, persona: str 
         audience_profile=final_audience_profile,
         persona_context=persona_context,
         use_cache=False,
+        num_slides=num_slides,
     )
 
     print()
